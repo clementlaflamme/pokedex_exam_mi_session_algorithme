@@ -62,6 +62,9 @@ public class PokedexAPI {
         p.typePrincipal = TYPES.get(pokemon.at("/types/0/type/name").asText());
         p.typeSecondaire = !pokemon.at("/types/1/type/name").isMissingNode() ? TYPES.get(pokemon.at("/types/1/type/name").asText()) : null;
         p.pointsVie = Integer.parseInt(pokemon.at("/stats/0/base_stat").asText());
+        p.attaque = Integer.parseInt(pokemon.at("/stats/1/base_stat").asText());
+        p.defense = Integer.parseInt(pokemon.at("/stats/2/base_stat").asText());
+        p.vitesse = Integer.parseInt(pokemon.at("/stats/5/base_stat").asText());
         p.taille = Float.parseFloat(pokemon.get("height").asText());
         p.poids = Float.parseFloat(pokemon.get("weight").asText());
         p.imageUrl = pokemon.at("/sprites/other/official-artwork/front_default").asText();

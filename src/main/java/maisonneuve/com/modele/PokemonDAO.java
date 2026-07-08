@@ -10,8 +10,8 @@ public class PokemonDAO {
     public void capturer(Pokemon p) throws SQLException {
         String sql =
             "INSERT INTO pokemons"
-            +"(id_pokedex, nom, type_principal, type_secondaire, points_vie, taille, poids, image_url) "
-            +"VALUES(?, ?, ?::type_pokemon, ?::type_pokemon, ?, ?, ?, ?) "
+            +"(id_pokedex, nom, type_principal, type_secondaire, points_vie, attaque, defense, vitesse, taille, poids, image_url) "
+            +"VALUES(?, ?, ?::type_pokemon, ?::type_pokemon, ?, ?, ?, ?, ?, ?, ?) "
             +"ON CONFLICT (id_pokedex) DO UPDATE SET "
             +"nom=EXCLUDED.nom";
 
@@ -31,9 +31,12 @@ public class PokemonDAO {
             }
 
             ps.setInt(5, p.pointsVie);
-            ps.setFloat(6, p.taille);
-            ps.setFloat(7, p.poids);
-            ps.setString(8, p.imageUrl);
+            ps.setInt(6, p.attaque);
+            ps.setInt(7, p.defense);
+            ps.setInt(8, p.vitesse);
+            ps.setFloat(9, p.taille);
+            ps.setFloat(10, p.poids);
+            ps.setString(11, p.imageUrl);
 
             ps.executeUpdate();
 
@@ -57,6 +60,9 @@ public class PokemonDAO {
                 p.typePrincipal = rs.getString("type_principal");
                 p.typeSecondaire = rs.getString("type_secondaire");
                 p.pointsVie = rs.getInt("points_vie");
+                p.attaque = rs.getInt("attaque");
+                p.defense = rs.getInt("defense");
+                p.vitesse = rs.getInt("vitesse");
                 p.taille = rs.getFloat("taille");
                 p.poids = rs.getFloat("poids");
                 p.imageUrl = rs.getString("image_url");

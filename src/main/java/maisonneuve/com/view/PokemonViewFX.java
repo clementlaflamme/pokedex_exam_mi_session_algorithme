@@ -2,6 +2,7 @@ package maisonneuve.com.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -13,7 +14,8 @@ public class PokemonViewFX {
 
     Label titre;
     Label sousTitre;
-    TextField barreRecherche;
+    public TextField barreRecherche;
+    public Label msgErreur;
     BorderPane racine;
     ImageView image;
     Label nomPokemon;
@@ -34,14 +36,15 @@ public class PokemonViewFX {
     Label statDef;
     Label statSpd;
     Label messageStatut;
+    public Button btnCapturer;
 
     public PokemonViewFX() {
 
         // Zone du haut : En-tête et barre de recherche
         titre = new Label("Pokédex");
         sousTitre = new Label("Recherchez tous vos pokémons préférés !");
-        barreRecherche = new TextField();
-        VBox haut = new VBox(6, titre, sousTitre, barreRecherche);
+        msgErreur = new Label();
+        VBox haut = new VBox(8, titre, sousTitre, barreRecherche, msgErreur);
 
         // Zone centrale : carte du pokémon
         image = new ImageView();
@@ -80,7 +83,13 @@ public class PokemonViewFX {
         VBox colStats = new VBox(4, statPv, statAtk, statDef, statSpd);
         HBox stats = new HBox(2, colLabels, colStats);
 
-        VBox centre = new VBox(20, carte, types, poidsTaille, stats);
+        // Bouton capturer
+        btnCapturer = new Button("Capturer");
+
+        // Asemblage
+        VBox centre = new VBox(20, carte, types, poidsTaille, stats, btnCapturer);
+
+
 
         // Zone du bas
         messageStatut = new Label("Ex: Pikachu chargé avec succès !");
