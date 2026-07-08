@@ -1,6 +1,7 @@
 package maisonneuve.com.controller;
 
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import maisonneuve.com.modele.Pokemon;
 import maisonneuve.com.modele.PokemonDAO;
 import maisonneuve.com.service.PokedexAPI;
@@ -21,30 +22,30 @@ public class PokemonController {
 
         // Écoute pour la touche "Entrer" pour rechercher le pokémon
         viewFx.barreRecherche.setOnAction(e -> {
-            try {
-                rechercherPokemon(viewFx.barreRecherche.getText());
-            } catch (IOException | InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
+            rechercherPokemon(viewFx.barreRecherche.getText());
         });
 
         // Écoute pour le btnCapturer pour capturer le pokémon
         viewFx.btnCapturer.setOnAction(e -> {
             try {
                 dao.capturer(pokemonActuel);
+                viewFx.msgErreur.setText(null);
+                viewFx.messageStatut.setText("Le pokémon " + pokemonActuel.nom + " a été capturé");
             } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+                viewFx.msgErreur.setText("Erreur lors de la capture. Avez-vous déjà capturé ce pokémon ?");
             }
         });
 
     }
 
     // Rechercher par titre ou par id sur l'API Pokedex
-    public void rechercherPokemon(String recherche) throws IOException, InterruptedException {
+    public void rechercherPokemon(String recherche) {
         viewFx.barreRecherche.setDisable(true);
-        viewFx.barreRecherche.clear();
+        viewFx.msgErreur.setText(null);
 
-        if (recherche.trim().isEmpty()) {
+        String rechercheNettoyee = recherche.trim().toLowerCase();
+
+        if (rechercheNettoyee.isEmpty()) {
             viewFx.msgErreur.setText("Veuillez entrer un nom ou un ID de pokémon à rechercher.");
             viewFx.barreRecherche.setDisable(false);
             return;
@@ -52,34 +53,60 @@ public class PokemonController {
 
         final Pokemon[] p = new Pokemon[1];
 
-        // Créer un nouveau thread (multithreading)
         Thread threadApi = new Thread(() -> {
             try {
-                p[0] = service.recupererPokemon(recherche.trim().toLowerCase());
-                if (p[0] == null) {
-                    viewFx.msgErreur.setText("Aucun pokémon ne correspond à votre recherche.");
-                    viewFx.barreRecherche.setDisable(false);
-                } else {
-                    this.pokemonActuel = p[0];
-                    afficherCartePokemon(p[0]);
-                }
-                viewFx.barreRecherche.setDisable(false);
+                p[0] = service.recupererPokemon(rechercheNettoyee);
+
+                Platform.runLater(() -> {
+                    if (p[0] == null) {
+                        viewFx.msgErreur.setText("Aucun pokémon ne correspond à votre recherche.");
+                        viewFx.barreRecherche.setDisable(false);
+                    } else {
+                        this.pokemonActuel = p[0];
+                        afficherCartePokemon(p[0]);
+                        viewFx.messageStatut.setText("Le pokémon " + premiereLettreEnMaj(p[0].nom) + " a été trouvé !");
+                        viewFx.barreRecherche.setDisable(false);
+                        viewFx.barreRecherche.clear();
+                    }
+                });
+
             } catch (Exception e) {
-                // S'exécute lors que le thread d'arrière plan a terminé
                 Platform.runLater(() -> {
                     viewFx.msgErreur.setText("Erreur lors de la requête.");
                     viewFx.barreRecherche.setDisable(false);
                 });
             }
         });
+
         threadApi.start();
+    }
+
+    public String premiereLettreEnMaj(String texte) {
+        if (texte == null || texte.isEmpty()) {
+            return texte;
+        }
+        return texte.substring(0, 1).toUpperCase() + texte.substring(1);
     }
 
     // Afficher la carte du pokémon
     public void afficherCartePokemon(Pokemon p) {
+        Image image = new Image(p.imageUrl);
+        viewFx.image.setImage(image);
+        viewFx.nomPokemon.setText(premiereLettreEnMaj(p.nom));
+        viewFx.idPokemon.setText("#" + p.idPokedex);
+        viewFx.type1.setText(premiereLettreEnMaj(p.typePrincipal));
+        if (p.typeSecondaire != null) {
+            viewFx.type2.setText(premiereLettreEnMaj(p.typeSecondaire));
+            viewFx.type2.setVisible(true);
+        } else {
+            viewFx.type2.setVisible(false);
+        }
+        viewFx.poidsPokemon.setText(p.poids + " kg");
+        viewFx.taillePokemon.setText(p.poids + " m");
+        viewFx.statPv.setText(String.valueOf(p.pointsVie));
+        viewFx.statAtk.setText(String.valueOf(p.attaque));
+        viewFx.statDef.setText(String.valueOf(p.defense));
+        viewFx.statSpd.setText(String.valueOf(p.vitesse));
 
     }
-
-
-    // Capturer le pokémon
 }

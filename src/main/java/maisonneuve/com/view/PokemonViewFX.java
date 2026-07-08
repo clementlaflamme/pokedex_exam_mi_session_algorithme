@@ -12,30 +12,30 @@ import javafx.scene.layout.VBox;
 
 public class PokemonViewFX {
 
-    Label titre;
-    Label sousTitre;
+    public Label titre;
+    public Label sousTitre;
     public TextField barreRecherche;
     public Label msgErreur;
-    BorderPane racine;
-    ImageView image;
-    Label nomPokemon;
-    Label idPokemon;
-    Label type1;
-    Label type2;
-    Label poidsPokemon;
-    Label poids;
-    Label taillePokemon;
-    Label taille;
-    Label statistiques;
-    Label pv;
-    Label atk;
-    Label def;
-    Label spd;
-    Label statPv;
-    Label statAtk;
-    Label statDef;
-    Label statSpd;
-    Label messageStatut;
+    public BorderPane racine;
+    public ImageView image;
+    public Label nomPokemon;
+    public Label idPokemon;
+    public Label type1;
+    public Label type2;
+    public Label poidsPokemon;
+    public Label poids;
+    public Label taillePokemon;
+    public Label taille;
+    public Label statistiques;
+    public Label pv;
+    public Label atk;
+    public Label def;
+    public Label spd;
+    public Label statPv;
+    public Label statAtk;
+    public Label statDef;
+    public Label statSpd;
+    public Label messageStatut;
     public Button btnCapturer;
 
     public PokemonViewFX() {
