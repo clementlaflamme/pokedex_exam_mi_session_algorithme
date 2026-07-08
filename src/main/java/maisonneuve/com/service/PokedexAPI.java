@@ -69,7 +69,7 @@ public class PokedexAPI {
         p.poids = Float.parseFloat(pokemon.get("weight").asText());
         p.imageUrl = pokemon.at("/sprites/other/official-artwork/front_default").asText();
 
-        System.out.println(p.nom + " a été récupéré !" + p);
+        System.out.println(p.nom + " a été récupéré !\n" + p);
 
         return p;
     }
