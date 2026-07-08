@@ -20,21 +20,21 @@ public class PokemonDAO {
             PreparedStatement ps = co.prepareStatement(sql)){
 
             ps.setString(1, p.id);
-            ps.setInt(2, p.id_pokedex);
+            ps.setInt(2, p.idPokedex);
             ps.setString(3, p.nom);
-            ps.setString(4, p.type_principal);
+            ps.setString(4, p.typePrincipal);
 
             // permet au type_secondaire d'être NULL
-            if (p.type_secondaire == null) {
+            if (p.typeSecondaire == null) {
                 ps.setNull(5, Types.VARCHAR);
             } else {
-                ps.setString(5, p.type_secondaire);
+                ps.setString(5, p.typeSecondaire);
             }
 
-            ps.setInt(6, p.points_vie);
+            ps.setInt(6, p.pointsVie);
             ps.setFloat(7, p.taille);
             ps.setFloat(8, p.poids);
-            ps.setString(9, p.image_url);
+            ps.setString(9, p.imageUrl);
 
             ps.executeUpdate();
         }
@@ -51,15 +51,15 @@ public class PokemonDAO {
             while(rs.next()) {
                 Pokemon p = new Pokemon();
                 p.id = rs.getString("id");
-                p.id_pokedex = rs.getInt("id_pokedex");
+                p.idPokedex = rs.getInt("id_pokedex");
                 p.nom = rs.getString("nom");
-                p.type_principal = rs.getString("type_principal");
-                p.type_secondaire = rs.getString("type_secondaire");
-                p.points_vie = rs.getInt("points_vie");
+                p.typePrincipal = rs.getString("type_principal");
+                p.typeSecondaire = rs.getString("type_secondaire");
+                p.pointsVie = rs.getInt("points_vie");
                 p.taille = rs.getFloat("taille");
                 p.poids = rs.getFloat("poids");
-                p.image_url = rs.getString("image_url");
-                p.capture_le = rs.getString("capture_le");
+                p.imageUrl = rs.getString("image_url");
+                p.captureLe = rs.getString("capture_le");
                 tous.add(p);
             }
 
