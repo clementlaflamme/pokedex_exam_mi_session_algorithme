@@ -1,4 +1,4 @@
-package maisonneuve.com.utils;
+package maisonneuve.com.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ public class Connexion {
     private static final String USER = "postgres";
     private static final String PASS = "admin";
 
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnexion() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASS);
     }
 }

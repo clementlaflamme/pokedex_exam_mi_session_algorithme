@@ -1,6 +1,6 @@
 package maisonneuve.com;
 
-import maisonneuve.com.utils.InitSQL;
+import maisonneuve.com.util.InitSQL;
 
 import java.io.IOException;
 

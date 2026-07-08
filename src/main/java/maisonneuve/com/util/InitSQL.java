@@ -1,4 +1,4 @@
-package maisonneuve.com.utils;
+package maisonneuve.com.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class InitSQL {
                     .lines()
                     .collect(Collectors.joining("\n"));
 
-            try (Connection co = Connexion.getConnection();
+            try (Connection co = Connexion.getConnexion();
                  Statement stmt = co.createStatement()) {
                 stmt.execute(sql);
                 System.out.println("Base de donnée chargée !");

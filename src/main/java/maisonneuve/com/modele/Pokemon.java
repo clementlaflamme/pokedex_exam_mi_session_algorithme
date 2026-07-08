@@ -2,15 +2,15 @@ package maisonneuve.com.modele;
 
 public class Pokemon {
     public String id;
-    public Integer id_pokedex;
+    public Integer idPokedex;
     public String nom;
-    public String type_principal;
-    public String type_secondaire;
-    public Integer points_vie;
+    public String typePrincipal;
+    public String typeSecondaire;
+    public Integer pointsVie;
     public Float taille;
     public Float poids;
-    public String image_url;
-    public String capture_le;
+    public String imageUrl;
+    public String captureLe;
 
     // constructeur vide
     public Pokemon() {}
@@ -19,15 +19,15 @@ public class Pokemon {
     public String toString() {
         return "Pokemon{" +
                 "id='" + id + '\'' +
-                ", id_pokedex=" + id_pokedex +
+                ", idPokedex=" + idPokedex +
                 ", nom='" + nom + '\'' +
-                ", type_principal='" + type_principal + '\'' +
-                ", type_secondaire='" + type_secondaire + '\'' +
-                ", points_vie=" + points_vie +
+                ", typePrincipal='" + typePrincipal + '\'' +
+                ", typeSecondaire='" + typeSecondaire + '\'' +
+                ", pointsVie=" + pointsVie +
                 ", taille=" + taille +
                 ", poids=" + poids +
-                ", image_url='" + image_url + '\'' +
-                ", capture_le='" + capture_le + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", captureLe='" + captureLe + '\'' +
                 '}';
     }
 }
