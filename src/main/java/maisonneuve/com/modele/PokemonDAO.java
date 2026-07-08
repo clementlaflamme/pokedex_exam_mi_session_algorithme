@@ -7,41 +7,42 @@ import java.util.List;
 
 
 public class PokemonDAO {
-    public void sauvegarder(Pokemon p) throws SQLException {
+    public void capturer(Pokemon p) throws SQLException {
         String sql =
             "INSERT INTO pokemons"
-            +"(id, id_pokedex, nom, type_principal, type_secondaire, points_vie, taille, poids, image_url) "
-            +"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) "
-            +"ON CONFLICT (id) DO UPDATE SET "
+            +"(id_pokedex, nom, type_principal, type_secondaire, points_vie, taille, poids, image_url) "
+            +"VALUES(?, ?, ?::type_pokemon, ?::type_pokemon, ?, ?, ?, ?) "
+            +"ON CONFLICT (id_pokedex) DO UPDATE SET "
             +"nom=EXCLUDED.nom";
 
 
         try(Connection co = Connexion.getConnexion();
             PreparedStatement ps = co.prepareStatement(sql)){
 
-            ps.setString(1, p.id);
-            ps.setInt(2, p.idPokedex);
-            ps.setString(3, p.nom);
-            ps.setString(4, p.typePrincipal);
+            ps.setInt(1, p.idPokedex);
+            ps.setString(2, p.nom);
+            ps.setString(3, p.typePrincipal);
 
             // permet au type_secondaire d'être NULL
             if (p.typeSecondaire == null) {
-                ps.setNull(5, Types.VARCHAR);
+                ps.setNull(4, Types.VARCHAR);
             } else {
-                ps.setString(5, p.typeSecondaire);
+                ps.setString(4, p.typeSecondaire);
             }
 
-            ps.setInt(6, p.pointsVie);
-            ps.setFloat(7, p.taille);
-            ps.setFloat(8, p.poids);
-            ps.setString(9, p.imageUrl);
+            ps.setInt(5, p.pointsVie);
+            ps.setFloat(6, p.taille);
+            ps.setFloat(7, p.poids);
+            ps.setString(8, p.imageUrl);
 
             ps.executeUpdate();
+
+            System.out.println(p.nom + " a été capturé ! ");
         }
     }
 
     public List<Pokemon> lister() throws SQLException{
-        String sql = "SELECT * from pokemons ORDER BY id_pokedex ASC";
+        String sql = "SELECT * FROM pokemons ORDER BY id_pokedex ASC";
         List<Pokemon> tous = new ArrayList<>();
 
         try(Connection co = Connexion.getConnexion();

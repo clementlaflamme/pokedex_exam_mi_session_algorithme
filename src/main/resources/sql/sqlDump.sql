@@ -3,23 +3,23 @@ DROP TYPE IF EXISTS type_pokemon CASCADE;
 
 CREATE TYPE type_pokemon AS ENUM (
     'normal',
-    'fire',
-    'water',
-    'grass',
-    'electric',
-    'ice',
-    'fighting',
+    'feu',
+    'eau',
+    'plante',
+    'electrik',
+    'glace',
+    'combat',
     'poison',
-    'ground',
-    'flying',
-    'psychic',
-    'bug',
-    'rock',
-    'ghost',
+    'sol',
+    'vol',
+    'psy',
+    'insecte',
+    'roche',
+    'spectre',
     'dragon',
-    'dark',
-    'steel',
-    'fairy'
+    'tenebre',
+    'acier',
+    'fee'
 );
 
 CREATE TABLE pokemons
@@ -35,6 +35,7 @@ CREATE TABLE pokemons
     image_url       TEXT          NOT NULL,
     capture_le       TIMESTAMPTZ DEFAULT NOW(),
 
+    CONSTRAINT uq_id_pokedex UNIQUE ( id_pokedex ),
     CONSTRAINT pv_positif CHECK ( points_vie > 0 ),
     CONSTRAINT taille_positive CHECK ( taille > 0 ),
     CONSTRAINT poids_positif CHECK ( taille > 0 )
@@ -44,8 +45,5 @@ INSERT INTO pokemons (id_pokedex, nom, type_principal, points_vie, taille, poids
     143, 'snorlax', 'normal', 160, 21, 4600, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png'
 );
 INSERT INTO pokemons (id_pokedex, nom, type_principal, type_secondaire, points_vie, taille, poids, image_url) VALUES (
-    145, 'zapdos', 'electric', 'flying', 90, 16, 526, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png'
+    145, 'zapdos', 'electrik', 'vol', 90, 16, 526, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png'
 );
-
-
-
