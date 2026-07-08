@@ -43,6 +43,7 @@ public class PokemonViewFX {
         // Zone du haut : En-tête et barre de recherche
         titre = new Label("Pokédex");
         sousTitre = new Label("Recherchez tous vos pokémons préférés !");
+        barreRecherche = new TextField();
         msgErreur = new Label();
         VBox haut = new VBox(8, titre, sousTitre, barreRecherche, msgErreur);
 

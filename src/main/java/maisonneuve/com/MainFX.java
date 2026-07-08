@@ -3,6 +3,7 @@ package maisonneuve.com;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import maisonneuve.com.controller.PokemonController;
 import maisonneuve.com.view.PokemonViewFX;
 
 public class MainFX extends Application {
@@ -10,9 +11,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage stage) {
         PokemonViewFX view = new PokemonViewFX();
-        /*PokemonController ctrl = new PokemonController(view);
-
-        ctrl.demarrer();*/
+        PokemonController ctrl = new PokemonController(view);
 
         Scene scene = new Scene(view.getRoot(), 900, 500);
         stage.setTitle("Pokédex - Recherchez vos pokémons préférés");
