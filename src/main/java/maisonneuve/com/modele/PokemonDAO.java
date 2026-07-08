@@ -67,4 +67,20 @@ public class PokemonDAO {
         }
         return tous;
     }
+
+    public void relacher(Pokemon p) throws SQLException {
+        String sql =
+                "DELETE FROM pokemons WHERE nom = ?";
+
+        try(Connection co = Connexion.getConnexion();
+            PreparedStatement ps = co.prepareStatement(sql)){
+
+            ps.setString(1, p.nom);
+
+            ps.executeUpdate();
+
+            System.out.println(p.nom + " a été relâché ! ");
+        }
+    }
+
 }
