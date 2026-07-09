@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import maisonneuve.com.modele.Pokemon;
 
 import java.util.Optional;
 
@@ -40,6 +41,8 @@ public class PokemonViewFX {
     public ProgressBar barreSpd;
     public Label messageStatut;
     public Button btnCapturer;
+    public Label titreListe;
+    public ListView<Pokemon> listePokemonsCaptures;
 
     // demande de confirmation lors de la libération d'un Pokémon
     public boolean afficherConfirmation(String titre, String message) {
@@ -128,8 +131,12 @@ public class PokemonViewFX {
         // Bouton capturer
         btnCapturer = new Button("Capturer");
 
-        // Asemblage
-        VBox centre = new VBox(20, carte, types, poidsTaille, stats, btnCapturer);
+        // Liste des pokémons capturés
+        titreListe = new Label("Liste des Pokémons capturés");
+        listePokemonsCaptures = new ListView<>();
+
+        // Assemblage
+        VBox centre = new VBox(20, carte, types, poidsTaille, stats, btnCapturer, listePokemonsCaptures);
 
 
 
