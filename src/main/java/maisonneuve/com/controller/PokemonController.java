@@ -1,6 +1,7 @@
 package maisonneuve.com.controller;
 
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import maisonneuve.com.modele.Pokemon;
 import maisonneuve.com.modele.PokemonDAO;
@@ -125,21 +126,42 @@ public class PokemonController {
     public void afficherCartePokemon(Pokemon p) {
         Image image = new Image(p.imageUrl);
         viewFx.image.setImage(image);
+        viewFx.image.getStyleClass().add("image");
+
         viewFx.nomPokemon.setText(premiereLettreEnMaj(p.nom));
+        viewFx.nomPokemon.getStyleClass().add("nom");
+
         viewFx.idPokemon.setText("#" + p.idPokedex);
+        viewFx.idPokemon.getStyleClass().add("numPokedex");
+
         viewFx.type1.setText(premiereLettreEnMaj(p.typePrincipal));
+        //viewFx.type1.getStyleClass().removeAll("normal", "feu", "eau", "plante", "electrik", "glace", "combat", "poison",
+        //        "sol", "vol", "psy", "insecte", "roche", "spectre", "dragon", "tenebre", "acier", "fee");
+        String classeCss = p.typePrincipal;
+        viewFx.type1.getStyleClass().setAll(classeCss, "classLabel");
         if (p.typeSecondaire != null) {
             viewFx.type2.setText(premiereLettreEnMaj(p.typeSecondaire));
+            //viewFx.type2.getStyleClass().removeAll("normal", "feu", "eau", "plante", "electrik", "glace", "combat", "poison",
+              //  "sol", "vol", "psy", "insecte", "roche", "spectre", "dragon", "tenebre", "acier", "fee");
+            classeCss = p.typeSecondaire;
+            viewFx.type2.getStyleClass().setAll(classeCss, "classLabel");
             viewFx.type2.setVisible(true);
         } else {
             viewFx.type2.setVisible(false);
         }
         viewFx.poidsPokemon.setText(p.poids + " kg");
+        viewFx.poidsPokemon.getStyleClass().add("stats");
         viewFx.taillePokemon.setText(p.poids + " m");
+        viewFx.taillePokemon.getStyleClass().add("stats");
+
         viewFx.statPv.setText(String.valueOf(p.pointsVie));
+        viewFx.statPv.getStyleClass().add("stats");
         viewFx.statAtk.setText(String.valueOf(p.attaque));
+        viewFx.statAtk.getStyleClass().add("stats");
         viewFx.statDef.setText(String.valueOf(p.defense));
+        viewFx.statDef.getStyleClass().add("stats");
         viewFx.statSpd.setText(String.valueOf(p.vitesse));
+        viewFx.statSpd.getStyleClass().add("stats");
 
     }
 }
