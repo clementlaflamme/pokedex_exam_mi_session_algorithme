@@ -1,6 +1,7 @@
 package maisonneuve.com.modele;
 
 import maisonneuve.com.util.Connexion;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +10,15 @@ import java.util.List;
 public class PokemonDAO {
     public void capturer(Pokemon p) throws SQLException {
         String sql =
-            "INSERT INTO pokemons"
-            +"(id_pokedex, nom, type_principal, type_secondaire, points_vie, attaque, defense, vitesse, taille, poids, image_url) "
-            +"VALUES(?, ?, ?::type_pokemon, ?::type_pokemon, ?, ?, ?, ?, ?, ?, ?) "
-            +"ON CONFLICT (id_pokedex) DO UPDATE SET "
-            +"nom=EXCLUDED.nom";
+                "INSERT INTO pokemons"
+                        + "(id_pokedex, nom, type_principal, type_secondaire, points_vie, attaque, defense, vitesse, taille, poids, image_url) "
+                        + "VALUES(?, ?, ?::type_pokemon, ?::type_pokemon, ?, ?, ?, ?, ?, ?, ?) "
+                        + "ON CONFLICT (id_pokedex) DO UPDATE SET "
+                        + "nom=EXCLUDED.nom";
 
 
-        try(Connection co = Connexion.getConnexion();
-            PreparedStatement ps = co.prepareStatement(sql)){
+        try (Connection co = Connexion.getConnexion();
+             PreparedStatement ps = co.prepareStatement(sql)) {
 
             ps.setInt(1, p.idPokedex);
             ps.setString(2, p.nom);
@@ -44,15 +45,15 @@ public class PokemonDAO {
         }
     }
 
-    public List<Pokemon> lister() throws SQLException{
+    public List<Pokemon> lister() throws SQLException {
         String sql = "SELECT * FROM pokemons ORDER BY id_pokedex ASC";
         List<Pokemon> tous = new ArrayList<>();
 
-        try(Connection co = Connexion.getConnexion();
-            Statement st = co.createStatement();
-            ResultSet rs = st.executeQuery(sql)) {
+        try (Connection co = Connexion.getConnexion();
+             Statement st = co.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
 
-            while(rs.next()) {
+            while (rs.next()) {
                 Pokemon p = new Pokemon();
                 p.id = rs.getString("id");
                 p.idPokedex = rs.getInt("id_pokedex");
@@ -78,8 +79,8 @@ public class PokemonDAO {
         String sql =
                 "DELETE FROM pokemons WHERE nom = ?";
 
-        try(Connection co = Connexion.getConnexion();
-            PreparedStatement ps = co.prepareStatement(sql)){
+        try (Connection co = Connexion.getConnexion();
+             PreparedStatement ps = co.prepareStatement(sql)) {
 
             ps.setString(1, p.nom);
 
@@ -94,8 +95,8 @@ public class PokemonDAO {
                 "SELECT * FROM pokemons WHERE nom = ?";
         Pokemon p = null;
 
-        try(Connection co = Connexion.getConnexion();
-            PreparedStatement ps = co.prepareStatement(sql)){
+        try (Connection co = Connexion.getConnexion();
+             PreparedStatement ps = co.prepareStatement(sql)) {
 
             ps.setString(1, nom);
 
@@ -123,6 +124,21 @@ public class PokemonDAO {
         }
 
         return p;
+    }
+
+    public boolean estDejaCapture(int idPokedex) {
+        String sql = "SELECT 1 FROM pokemons WHERE id_pokedex = ?";
+
+        try (Connection co = Connexion.getConnexion();
+             PreparedStatement ps = co.prepareStatement(sql)) {
+            ps.setInt(1, idPokedex);
+
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la requête : " + e.getMessage());
+            return false;
+        }
     }
 
 
