@@ -135,32 +135,39 @@ public class PokemonController {
         viewFx.idPokemon.getStyleClass().add("numPokedex");
 
         viewFx.type1.setText(premiereLettreEnMaj(p.typePrincipal));
-        //viewFx.type1.getStyleClass().removeAll("normal", "feu", "eau", "plante", "electrik", "glace", "combat", "poison",
-        //        "sol", "vol", "psy", "insecte", "roche", "spectre", "dragon", "tenebre", "acier", "fee");
         String classeCss = p.typePrincipal;
         viewFx.type1.getStyleClass().setAll(classeCss, "classLabel");
         if (p.typeSecondaire != null) {
             viewFx.type2.setText(premiereLettreEnMaj(p.typeSecondaire));
-            //viewFx.type2.getStyleClass().removeAll("normal", "feu", "eau", "plante", "electrik", "glace", "combat", "poison",
-              //  "sol", "vol", "psy", "insecte", "roche", "spectre", "dragon", "tenebre", "acier", "fee");
             classeCss = p.typeSecondaire;
             viewFx.type2.getStyleClass().setAll(classeCss, "classLabel");
             viewFx.type2.setVisible(true);
         } else {
             viewFx.type2.setVisible(false);
         }
-        viewFx.poidsPokemon.setText(p.poids + " kg");
+        viewFx.poidsPokemon.setText(p.poids / 10 + " kg");
         viewFx.poidsPokemon.getStyleClass().add("stats");
-        viewFx.taillePokemon.setText(p.poids + " m");
+        viewFx.taillePokemon.setText(p.taille * 10 + " cm");
         viewFx.taillePokemon.getStyleClass().add("stats");
 
         viewFx.statPv.setText(String.valueOf(p.pointsVie));
+        double progresPv = p.pointsVie / 255.0;
+        viewFx.barrePv.setProgress(progresPv);
         viewFx.statPv.getStyleClass().add("stats");
+
         viewFx.statAtk.setText(String.valueOf(p.attaque));
+        double progresAtk = p.attaque / 200.0;
+        viewFx.barreAtk.setProgress(progresAtk);
         viewFx.statAtk.getStyleClass().add("stats");
+
         viewFx.statDef.setText(String.valueOf(p.defense));
+        double progresDef = p.defense / 255.0;
+        viewFx.barreDef.setProgress(progresDef);
         viewFx.statDef.getStyleClass().add("stats");
+
         viewFx.statSpd.setText(String.valueOf(p.vitesse));
+        double progresSpd = p.vitesse / 200.0;
+        viewFx.barreSpd.setProgress(progresSpd);
         viewFx.statSpd.getStyleClass().add("stats");
 
     }
