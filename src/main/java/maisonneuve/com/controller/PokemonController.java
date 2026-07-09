@@ -1,8 +1,11 @@
 package maisonneuve.com.controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import maisonneuve.com.modele.Pokemon;
 import maisonneuve.com.modele.PokemonDAO;
 import maisonneuve.com.service.PokedexAPI;
@@ -10,6 +13,7 @@ import maisonneuve.com.view.PokemonViewFX;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonController {
@@ -50,11 +54,12 @@ public class PokemonController {
                             viewFx.msgErreur.setText(null);
                             viewFx.messageStatut.setText("Le Pokémon " + pokemonActuel.nom + " a été relâché");
                             viewFx.btnCapturer.setText("Capturer");
+                            afficherListeCapture();
                         } catch (SQLException ex) {
                             viewFx.msgErreur.setText("Erreur lors de la relâche. Vous n'avez pas ce Pokémon");
                         }
                     } else {
-                            viewFx.messageStatut.setText("Relâche annulée.");
+                        viewFx.messageStatut.setText("Relâche annulée.");
                     }
                 } else {
                     try {
@@ -62,6 +67,7 @@ public class PokemonController {
                         viewFx.msgErreur.setText(null);
                         viewFx.messageStatut.setText("Le pokémon " + pokemonActuel.nom + " a été capturé");
                         viewFx.btnCapturer.setText("Relâcher");
+                        afficherListeCapture();
                     } catch (SQLException ex) {
                         viewFx.msgErreur.setText("Erreur lors de la capture. Avez-vous déjà capturé ce Pokémon ?");
                     }
@@ -70,6 +76,53 @@ public class PokemonController {
                 viewFx.msgErreur.setText("Erreur de connexion avec la base de données.");
             }
         });
+
+        // Définir ce qui est affiché dans la liste des Pokémons capturés
+        viewFx.listePokemonsCaptures.setCellFactory(listView -> new javafx.scene.control.ListCell<Pokemon>() {
+            private final ImageView imageView = new ImageView();
+
+            @Override
+            protected void updateItem(Pokemon pokemon, boolean empty) {
+                super.updateItem(pokemon, empty);
+
+                if (empty || pokemon == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+
+                    // Initialisation du cadre de l'image
+                    imageView.setFitWidth(40);
+                    imageView.setFitHeight(40);
+                    imageView.setPreserveRatio(true);
+
+                    // Les composants qui sont affichés dans la liste
+                    setText(premiereLettreEnMaj(pokemon.nom));
+
+                    // Si l'image est valide, on l'affiche
+                    if (pokemon.imageUrl != null && !pokemon.imageUrl.isEmpty()) {
+                        Image img = new Image(pokemon.imageUrl, 40, 40, true, true, true);
+                        imageView.setImage(img);
+
+                        setGraphic(imageView);
+                    } else {
+                        setGraphic(null);
+                    }
+                }
+            }
+        });
+
+        viewFx.listePokemonsCaptures.getSelectionModel().selectedItemProperty().addListener((obs, ancien, nouveau) -> {
+            if (nouveau != null) {
+                afficherCartePokemon(nouveau);
+                pokemonActuel = nouveau;
+            }
+        });
+
+    }
+
+
+    public void demarrer() {
+        afficherListeCapture();
     }
 
     // Rechercher par titre ou par id sur l'API Pokedex
@@ -124,7 +177,7 @@ public class PokemonController {
 
     // Afficher la carte du pokémon
     public void afficherCartePokemon(Pokemon p) {
-        Image image = new Image(p.imageUrl);
+        Image image = new Image(p.imageUrl, 200, 0, true, true, true);
         viewFx.image.setImage(image);
         viewFx.image.getStyleClass().add("image");
 
@@ -170,5 +223,27 @@ public class PokemonController {
         viewFx.barreSpd.setProgress(progresSpd);
         viewFx.statSpd.getStyleClass().add("stats");
 
+    }
+
+    public void afficherListeCapture() {
+        Thread thread = new Thread(() -> {
+            try {
+                List<Pokemon> pokemonsCaptures = dao.lister();
+
+                if (pokemonsCaptures == null || pokemonsCaptures.isEmpty()) {
+                    return;
+                }
+
+                Platform.runLater(() -> {
+                    viewFx.listePokemonsCaptures.setItems(FXCollections.observableArrayList(pokemonsCaptures));
+                });
+            } catch (SQLException e) {
+                Platform.runLater(() -> {
+                    System.err.println("Erreur lors de l'affichage de la liste des pokémons capturés : " + e.getMessage());
+                    viewFx.msgErreur.setText("Erreur lors de l'affichage de la liste des pokémons capturés.");
+                });
+            }
+        });
+        thread.start();
     }
 }

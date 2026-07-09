@@ -6,12 +6,15 @@ import javafx.stage.Stage;
 import maisonneuve.com.controller.PokemonController;
 import maisonneuve.com.view.PokemonViewFX;
 
+import java.sql.SQLException;
+
 public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) {
         PokemonViewFX view = new PokemonViewFX();
         PokemonController ctrl = new PokemonController(view);
+        ctrl.demarrer();
 
         Scene scene = new Scene(view.getRoot(), 900, 500);
 
