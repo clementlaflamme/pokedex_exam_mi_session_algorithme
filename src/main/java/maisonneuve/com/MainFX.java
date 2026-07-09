@@ -14,6 +14,10 @@ public class MainFX extends Application {
         PokemonController ctrl = new PokemonController(view);
 
         Scene scene = new Scene(view.getRoot(), 900, 500);
+
+        String css = MainFX.class.getResource("/style.css").toExternalForm();
+        scene.getStylesheets().add(css);
+
         stage.setTitle("Pokédex - Recherchez vos pokémons préférés");
         stage.setScene(scene);
         stage.show();

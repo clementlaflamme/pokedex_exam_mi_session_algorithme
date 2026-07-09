@@ -55,10 +55,20 @@ public class PokemonViewFX {
     public PokemonViewFX() {
 
         // Zone du haut : En-tête et barre de recherche
-        titre = new Label("Pokédex");
+        titre = new Label("P O K É D E X");
+        titre.getStyleClass().add("nom");
+
+        // test CSS
+        //titre.getStyleClass().add("test");
+
+
         sousTitre = new Label("Recherchez tous vos pokémons préférés !");
+        sousTitre.getStyleClass().add("subtitle");
         barreRecherche = new TextField();
+        barreRecherche.getStyleClass().add("borderRad");
+
         msgErreur = new Label();
+        msgErreur.getStyleClass().add("subtitle");
         VBox haut = new VBox(8, titre, sousTitre, barreRecherche, msgErreur);
 
         // Zone centrale : carte du pokémon
@@ -75,8 +85,10 @@ public class PokemonViewFX {
         // Poids et taille
         poidsPokemon = new Label("Ex : 24 kg");
         poids = new Label("Poids");
+        poids.getStyleClass().add("subtitle");
         taillePokemon = new Label("Ex: 5m");
         taille = new Label("Taille");
+        taille.getStyleClass().add("subtitle");
 
         VBox colPoids = new VBox(3, poids, poidsPokemon);
         VBox colTaille = new VBox(3, taille, taillePokemon);
@@ -85,9 +97,13 @@ public class PokemonViewFX {
         // Statistiques
         statistiques = new Label("Statistiques de base");
         pv = new Label("PV");
+        pv.setStyle("-fx-text-fill: grey;");
         atk = new Label("ATK");
+        atk.setStyle("-fx-text-fill: grey;");
         def = new Label("DEF");
+        def.setStyle("-fx-text-fill: grey;");
         spd = new Label("SPD");
+        spd.setStyle("-fx-text-fill: grey;");
 
         statPv = new Label("Ex: 5");
         statAtk = new Label("Ex: 5");

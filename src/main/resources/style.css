@@ -1,0 +1,158 @@
+* {
+    -type-normal: #C3B59B;
+    -type-feu: #F7941F;
+    -type-eau: #00AEED;
+    -type-plante: #35B44B;
+    -type-electrik: #FAEB30;
+    -type-glace: #A3DCF7;
+    -type-combat: #BC1E2C;
+    -type-poison: #91288D;
+    -type-sol: #FFCC69;
+    -type-vol: #C2B7D9;
+    -type-psy: #EC2B7A;
+    -type-insecte: #AACF4E;
+    -type-roche: #C39A6E;
+    -type-spectre: #877299;
+    -type-dragon: #4D2F8F;
+    -type-tenebre: #3E2417;
+    -type-acier: #A1ABB4;
+    -type-fee: #F392BD;
+    -pokeball-red: #FF3231;
+}
+
+.classLabel {
+    -fx-padding: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-min-width: 40px;
+}
+
+.normal {
+    -fx-background-color: -type-normal;
+    -fx-text-fill: black;
+}
+
+.feu {
+    -fx-background-color: -type-feu;
+    -fx-text-fill: white;
+}
+
+.eau {
+    -fx-background-color: -type-eau;
+    -fx-text-fill: white;
+}
+
+.plante {
+    -fx-background-color: -type-plante;
+    -fx-text-fill: white;
+}
+
+.electrik {
+    -fx-background-color: -type-electrik;
+    -fx-text-fill: black;
+}
+
+.glace {
+    -fx-background-color: -type-glace;
+    -fx-text-fill: black;
+}
+
+.combat {
+    -fx-background-color: -type-combat;
+    -fx-text-fill: white;
+}
+
+.poison {
+    -fx-background-color: -type-poison;
+    -fx-text-fill: white;
+}
+
+.sol {
+    -fx-background-color: -type-sol;
+    -fx-text-fill: white;
+}
+
+.vol {
+    -fx-background-color: -type-vol;
+    -fx-text-fill: white;
+}
+
+.psy {
+    -fx-background-color: -type-psy;
+    -fx-text-fill: white;
+}
+
+.insecte {
+    -fx-background-color: -type-insecte;
+    -fx-text-fill: white;
+}
+
+.roche {
+    -fx-background-color: -type-roche;
+    -fx-text-fill: white;
+}
+
+.spectre {
+    -fx-background-color: -type-spectre;
+    -fx-text-fill: white;
+}
+
+.dragon {
+    -fx-background-color: -type-dragon;
+    -fx-text-fill: white;
+}
+
+.tenebre {
+    -fx-background-color: -type-tenebre;
+    -fx-text-fill: white;
+}
+
+.acier {
+    -fx-background-color: -type-acier;
+    -fx-text-fill: white;
+}
+
+.fee {
+    -fx-background-color: -type-fee;
+    -fx-text-fill: white;
+}
+
+.test {
+    -fx-background-color: black;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.nom {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+}
+
+.numPokedex {
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-text-fill: blue;
+}
+
+.stats {
+    -fx-font-weight: bold;
+
+}
+
+.subtitle {
+    -fx-font-size: 0.8em;
+    -fx-text-fill: grey;
+}
+
+/* la partie de l'image est encore en tests*/
+.image {
+    -fx-padding: 25px;
+    -fx-background-color: red;
+    -fx-border-radius: 50px;
+    -fx-background-radius: 50px;
+}
+
+.borderRad {
+    -fx-border-radiux: 12px;
+    -fx-background-radius: 12px;
+}
