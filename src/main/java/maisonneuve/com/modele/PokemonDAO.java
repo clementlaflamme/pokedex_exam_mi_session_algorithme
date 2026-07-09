@@ -89,4 +89,41 @@ public class PokemonDAO {
         }
     }
 
+    public Pokemon rechercheParNom(String nom) throws SQLException {
+        String sql =
+                "SELECT * FROM pokemons WHERE nom = ?";
+        Pokemon p = null;
+
+        try(Connection co = Connexion.getConnexion();
+            PreparedStatement ps = co.prepareStatement(sql)){
+
+            ps.setString(1, nom);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    p = new Pokemon();
+                    p.id = rs.getString("id");
+                    p.idPokedex = rs.getInt("id_pokedex");
+                    p.nom = rs.getString("nom");
+                    p.typePrincipal = rs.getString("type_principal");
+                    p.typeSecondaire = rs.getString("type_secondaire");
+                    p.pointsVie = rs.getInt("points_vie");
+                    p.attaque = rs.getInt("attaque");
+                    p.defense = rs.getInt("defense");
+                    p.vitesse = rs.getInt("vitesse");
+                    p.taille = rs.getFloat("taille");
+                    p.poids = rs.getFloat("poids");
+                    p.imageUrl = rs.getString("image_url");
+                    p.captureLe = rs.getString("capture_le");
+
+                    System.out.println(nom + " a été trouvé!");
+
+                }
+            }
+        }
+
+        return p;
+    }
+
+
 }
