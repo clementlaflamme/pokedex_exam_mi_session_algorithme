@@ -9,6 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import java.util.Optional;
 
 public class PokemonViewFX {
 
@@ -37,6 +40,17 @@ public class PokemonViewFX {
     public Label statSpd;
     public Label messageStatut;
     public Button btnCapturer;
+
+    // demande de confirmation lors de la libération d'un Pokémon
+    public boolean afficherConfirmation(String titre, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(titre);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        Optional<ButtonType> resultat = alert.showAndWait();
+        return resultat.isPresent() && resultat.get() == ButtonType.OK;
+    }
 
     public PokemonViewFX() {
 
