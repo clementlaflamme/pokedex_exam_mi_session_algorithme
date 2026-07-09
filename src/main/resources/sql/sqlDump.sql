@@ -46,8 +46,8 @@ CREATE TABLE pokemons
 
 INSERT INTO pokemons (id_pokedex, nom, type_principal, points_vie, attaque, defense, vitesse, taille, poids, image_url)
 VALUES (143, 'snorlax', 'normal', 160, 110, 65, 30, 21, 4600,
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png');
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/143.png');
 INSERT INTO pokemons (id_pokedex, nom, type_principal, type_secondaire, points_vie, attaque, defense, vitesse, taille,
                       poids, image_url)
 VALUES (145, 'zapdos', 'electrik', 'vol', 90, 90, 85, 100, 16, 526,
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png');
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png');

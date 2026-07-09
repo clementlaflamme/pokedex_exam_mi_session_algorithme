@@ -76,6 +76,9 @@ public class PokemonViewFX {
 
         // Zone centrale : carte du pokémon
         image = new ImageView();
+        image.setFitWidth(200);
+        image.setFitHeight(200);
+
         nomPokemon = new Label("Ex : Pikachu");
         idPokemon = new Label("Ex : #25");
         VBox carte = new VBox(8, image, nomPokemon, idPokemon);

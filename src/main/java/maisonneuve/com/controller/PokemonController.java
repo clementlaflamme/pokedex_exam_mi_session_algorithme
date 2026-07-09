@@ -2,8 +2,6 @@ package maisonneuve.com.controller;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import maisonneuve.com.modele.Pokemon;
@@ -11,9 +9,7 @@ import maisonneuve.com.modele.PokemonDAO;
 import maisonneuve.com.service.PokedexAPI;
 import maisonneuve.com.view.PokemonViewFX;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonController {
@@ -22,63 +18,70 @@ public class PokemonController {
     private final PokedexAPI service = new PokedexAPI();
     private final PokemonViewFX viewFx;
     private Pokemon pokemonActuel;
+    private boolean pokemonDejaCapture;
 
     public PokemonController(PokemonViewFX viewFx) {
         this.viewFx = viewFx;
 
         // Écoute pour la touche "Entrer" pour rechercher le pokémon
-        viewFx.barreRecherche.setOnAction(e -> {
-            rechercherPokemon(viewFx.barreRecherche.getText());
-        });
+        viewFx.barreRecherche.setOnAction((_) -> rechercherPokemon(viewFx.barreRecherche.getText()));
 
         // Écoute pour le btnCapturer pour capturer le pokémon
         // btnCapturer affiche Relacher et permet de relacher un pokémon si il existe déjà dans la BD
-        viewFx.btnCapturer.setOnAction(e -> {
-            try {
-                List<Pokemon> tous = dao.lister();
-                boolean pokemonDejaCapture = false;
-                for (Pokemon p : tous) {
-                    if (p.idPokedex.equals(pokemonActuel.idPokedex)) {
-                        pokemonDejaCapture = true;
-                        break;
-                    }
-                }
+        viewFx.btnCapturer.setOnAction(_ -> {
+            if (pokemonDejaCapture) {
+                // Relâcher un Pokémon avec popup de confirmation
+                String messageRelache = "Êtes-vous sûr de vouloir relâcher " + premiereLettreEnMaj(pokemonActuel.nom) + "?";
+                boolean confirmer = viewFx.afficherConfirmation("Confirmer la relâche", messageRelache);
 
-                if (pokemonDejaCapture) {
-                    // affichage du popup de confirmation avant d'agir sur la BD
-                    String messageRelache = "Êtes-vous sûr de vouloir relâcher " + premiereLettreEnMaj(pokemonActuel.nom) + "?";
-                    boolean confirmer = viewFx.afficherConfirmation("Confirmer la relâche", messageRelache);
-                    if (confirmer) {
+                if (confirmer) {
+                    Thread threadRelache = new Thread(() -> {
                         try {
                             dao.relacher(pokemonActuel);
-                            viewFx.msgErreur.setText(null);
-                            viewFx.messageStatut.setText("Le Pokémon " + pokemonActuel.nom + " a été relâché");
-                            viewFx.btnCapturer.setText("Capturer");
-                            afficherListeCapture();
+
+                            Platform.runLater(() -> {
+                                viewFx.msgErreur.setText(null);
+                                viewFx.messageStatut.setText("Le Pokémon " + premiereLettreEnMaj(pokemonActuel.nom) + " a été relâché");
+                                viewFx.btnCapturer.setText("Capturer");
+                                pokemonDejaCapture = false;
+                                afficherListeCapture();
+                            });
                         } catch (SQLException ex) {
-                            viewFx.msgErreur.setText("Erreur lors de la relâche. Vous n'avez pas ce Pokémon");
+                            Platform.runLater(() -> {
+                                viewFx.msgErreur.setText("Erreur lors de la relâche. Vous n'avez pas ce Pokémon");
+                            });
                         }
-                    } else {
-                        viewFx.messageStatut.setText("Relâche annulée.");
-                    }
+                    });
+                    threadRelache.start();
                 } else {
+                    viewFx.messageStatut.setText("Relâche annulée.");
+                }
+
+            } else {
+                // Capturer un Pokémon
+                Thread threadCapture = new Thread(() -> {
                     try {
                         dao.capturer(pokemonActuel);
-                        viewFx.msgErreur.setText(null);
-                        viewFx.messageStatut.setText("Le pokémon " + pokemonActuel.nom + " a été capturé");
-                        viewFx.btnCapturer.setText("Relâcher");
-                        afficherListeCapture();
+
+                        Platform.runLater(() -> {
+                            viewFx.msgErreur.setText(null);
+                            viewFx.messageStatut.setText("Le pokémon " + premiereLettreEnMaj(pokemonActuel.nom) + " a été capturé");
+                            viewFx.btnCapturer.setText("Relâcher");
+                            pokemonDejaCapture = true;
+                            afficherListeCapture();
+                        });
                     } catch (SQLException ex) {
-                        viewFx.msgErreur.setText("Erreur lors de la capture. Avez-vous déjà capturé ce Pokémon ?");
+                        Platform.runLater(() -> {
+                            viewFx.msgErreur.setText("Erreur lors de la capture. Avez-vous déjà capturé ce Pokémon ?");
+                        });
                     }
-                }
-            } catch (SQLException ex) {
-                viewFx.msgErreur.setText("Erreur de connexion avec la base de données.");
+                });
+                threadCapture.start();
             }
         });
 
         // Définir ce qui est affiché dans la liste des Pokémons capturés
-        viewFx.listePokemonsCaptures.setCellFactory(listView -> new javafx.scene.control.ListCell<Pokemon>() {
+        viewFx.listePokemonsCaptures.setCellFactory((_) -> new javafx.scene.control.ListCell<>() {
             private final ImageView imageView = new ImageView();
 
             @Override
@@ -111,7 +114,8 @@ public class PokemonController {
             }
         });
 
-        viewFx.listePokemonsCaptures.getSelectionModel().selectedItemProperty().addListener((obs, ancien, nouveau) -> {
+        // Écoute pour la sélection sur la liste des Pokémons capturés, puis affiche sa carte
+        viewFx.listePokemonsCaptures.getSelectionModel().selectedItemProperty().addListener((_, _, nouveau) -> {
             if (nouveau != null) {
                 afficherCartePokemon(nouveau);
                 pokemonActuel = nouveau;
@@ -119,7 +123,6 @@ public class PokemonController {
         });
 
     }
-
 
     public void demarrer() {
         afficherListeCapture();
@@ -224,6 +227,25 @@ public class PokemonController {
         viewFx.barreSpd.setProgress(progresSpd);
         viewFx.statSpd.getStyleClass().add("stats");
 
+        Thread thread = new Thread(() -> {
+            try {
+                boolean estCapture = dao.estDejaCapture(p.idPokedex);
+
+                Platform.runLater(() -> {
+                    pokemonDejaCapture = estCapture;
+                    if (!estCapture) {
+                        viewFx.btnCapturer.setText("Capturer");
+                    } else {
+                        viewFx.btnCapturer.setText("Relâcher");
+                    }
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    viewFx.msgErreur.setText("Erreur lors de la vérification du Pokémon déjà capturé : " + e.getMessage());
+                });
+            }
+        });
+        thread.start();
     }
 
     public void afficherListeCapture() {
@@ -235,9 +257,7 @@ public class PokemonController {
                     return;
                 }
 
-                Platform.runLater(() -> {
-                    viewFx.listePokemonsCaptures.setItems(FXCollections.observableArrayList(pokemonsCaptures));
-                });
+                Platform.runLater(() -> viewFx.listePokemonsCaptures.setItems(FXCollections.observableArrayList(pokemonsCaptures)));
             } catch (SQLException e) {
                 Platform.runLater(() -> {
                     System.err.println("Erreur lors de l'affichage de la liste des pokémons capturés : " + e.getMessage());
@@ -247,12 +267,12 @@ public class PokemonController {
         });
         thread.start();
     }
-  
-    public void chargerPokemonInitial(){
-        try{
+
+    public void chargerPokemonInitial() {
+        try {
             Pokemon zapdos = dao.rechercheParNom("zapdos");
 
-            if(zapdos != null) {
+            if (zapdos != null) {
                 this.pokemonActuel = zapdos;
 
                 afficherCartePokemon(this.pokemonActuel);
@@ -264,7 +284,8 @@ public class PokemonController {
             }
         } catch (Exception e) {
             viewFx.msgErreur.setText("Erreur lors du chargement du Pokémon initial.");
-            e.printStackTrace();
         }
     }
+
+
 }
