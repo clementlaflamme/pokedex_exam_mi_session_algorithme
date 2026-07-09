@@ -40,13 +40,20 @@ public class PokemonController {
                 }
 
                 if (pokemonDejaCapture) {
-                    try {
-                        dao.relacher(pokemonActuel);
-                        viewFx.msgErreur.setText(null);
-                        viewFx.messageStatut.setText("Le Pokémon " + pokemonActuel.nom + " a été relâché");
-                        viewFx.btnCapturer.setText("Capturer");
-                    } catch (SQLException ex) {
-                        viewFx.msgErreur.setText("Erreur lors de la relâche. Vous n'avez pas ce Pokémon");
+                    // affichage du popup de confirmation avant d'agir sur la BD
+                    String messageRelache = "Êtes-vous sûr de vouloir relâcher " + premiereLettreEnMaj(pokemonActuel.nom) + "?";
+                    boolean confirmer = viewFx.afficherConfirmation("Confirmer la relâche", messageRelache);
+                    if (confirmer) {
+                        try {
+                            dao.relacher(pokemonActuel);
+                            viewFx.msgErreur.setText(null);
+                            viewFx.messageStatut.setText("Le Pokémon " + pokemonActuel.nom + " a été relâché");
+                            viewFx.btnCapturer.setText("Capturer");
+                        } catch (SQLException ex) {
+                            viewFx.msgErreur.setText("Erreur lors de la relâche. Vous n'avez pas ce Pokémon");
+                        }
+                    } else {
+                            viewFx.messageStatut.setText("Relâche annulée.");
                     }
                 } else {
                     try {
