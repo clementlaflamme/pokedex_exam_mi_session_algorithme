@@ -7,8 +7,10 @@ import javafx.scene.image.ImageView;
 import maisonneuve.com.modele.Pokemon;
 import maisonneuve.com.modele.PokemonDAO;
 import maisonneuve.com.service.PokedexAPI;
+import maisonneuve.com.util.InitSQL;
 import maisonneuve.com.view.PokemonViewFX;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -48,7 +50,11 @@ public class PokemonController {
                             });
                         } catch (SQLException ex) {
                             Platform.runLater(() -> {
-                                viewFx.msgErreur.setText("Erreur lors de la relâche. Vous n'avez pas ce Pokémon");
+                                if (estUneErreurDeConnexion(ex)) {
+                                    viewFx.afficherErreurCritique("La connexion avec le serveur PostgreSQL a été perdue. Fermeture de l'application.");
+                                } else {
+                                    viewFx.msgErreur.setText("Erreur lors de la relâche. Vous n'avez pas ce Pokémon");
+                                }
                             });
                         }
                     });
@@ -72,7 +78,11 @@ public class PokemonController {
                         });
                     } catch (SQLException ex) {
                         Platform.runLater(() -> {
-                            viewFx.msgErreur.setText("Erreur lors de la capture. Avez-vous déjà capturé ce Pokémon ?");
+                            if (estUneErreurDeConnexion(ex)) {
+                                viewFx.afficherErreurCritique("La connexion avec le serveur PostgreSQL a été perdue. Fermeture de l'application.");
+                            } else {
+                                viewFx.msgErreur.setText("Erreur lors de la capture. Avez-vous déjà capturé ce Pokémon ?");
+                            }
                         });
                     }
                 });
@@ -124,7 +134,8 @@ public class PokemonController {
 
     }
 
-    public void demarrer() {
+    public void demarrer() throws IOException {
+        verifierChargementBd();
         afficherListeCapture();
         chargerPokemonInitial();
     }
@@ -239,9 +250,13 @@ public class PokemonController {
                         viewFx.btnCapturer.setText("Relâcher");
                     }
                 });
-            } catch (Exception e) {
+            } catch (SQLException ex) {
                 Platform.runLater(() -> {
-                    viewFx.msgErreur.setText("Erreur lors de la vérification du Pokémon déjà capturé : " + e.getMessage());
+                    if (estUneErreurDeConnexion(ex)) {
+                        viewFx.afficherErreurCritique("La connexion avec le serveur PostgreSQL a été perdue. Fermeture de l'application.");
+                    } else {
+                        viewFx.msgErreur.setText("Erreur lors de la vérification du Pokémon déjà capturé");
+                    }
                 });
             }
         });
@@ -258,10 +273,13 @@ public class PokemonController {
                 }
 
                 Platform.runLater(() -> viewFx.listePokemonsCaptures.setItems(FXCollections.observableArrayList(pokemonsCaptures)));
-            } catch (SQLException e) {
+            } catch (SQLException ex) {
                 Platform.runLater(() -> {
-                    System.err.println("Erreur lors de l'affichage de la liste des pokémons capturés : " + e.getMessage());
-                    viewFx.msgErreur.setText("Erreur lors de l'affichage de la liste des pokémons capturés.");
+                    if (estUneErreurDeConnexion(ex)) {
+                        viewFx.afficherErreurCritique("La connexion avec le serveur PostgreSQL a été perdue. Fermeture de l'application.");
+                    } else {
+                        viewFx.msgErreur.setText("Erreur lors de l'affichage de la liste des pokémons capturés.");
+                    }
                 });
             }
         });
@@ -287,5 +305,22 @@ public class PokemonController {
         }
     }
 
+    public void verifierChargementBd() throws IOException {
+
+        boolean chargementAReussi = InitSQL.executerInitSQL();
+
+        if (!chargementAReussi) {
+            viewFx.afficherErreurCritique("Erreur lors de la connexion ou du chargement de la base de donnée. Vérifiez que votre base de donnée est ouverte sur localhost:5432/exam_pokedex et que les informations de connexion dans util/Connexion correspondent avec vos informations locales, puis réessayez.");
+        }
+    }
+
+    private boolean estUneErreurDeConnexion(SQLException ex) {
+        String state = ex.getSQLState();
+        if (state != null) {
+            // Si l'état commence par "08", la connexion avec la base de donnée est perdue
+            return state.startsWith("08");
+        }
+        return false;
+    }
 
 }

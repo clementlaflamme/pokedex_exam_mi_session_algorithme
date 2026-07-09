@@ -126,7 +126,7 @@ public class PokemonDAO {
         return p;
     }
 
-    public boolean estDejaCapture(int idPokedex) {
+    public boolean estDejaCapture(int idPokedex) throws SQLException {
         String sql = "SELECT 1 FROM pokemons WHERE id_pokedex = ?";
 
         try (Connection co = Connexion.getConnexion();
@@ -135,11 +135,6 @@ public class PokemonDAO {
 
             ResultSet rs = ps.executeQuery();
             return rs.next();
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la requête : " + e.getMessage());
-            return false;
         }
     }
-
-
 }
