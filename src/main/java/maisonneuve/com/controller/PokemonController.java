@@ -70,6 +70,8 @@ public class PokemonController {
                 viewFx.msgErreur.setText("Erreur de connexion avec la base de données.");
             }
         });
+
+        chargerPokemonInitial();
     }
 
     // Rechercher par titre ou par id sur l'API Pokedex
@@ -170,5 +172,25 @@ public class PokemonController {
         viewFx.barreSpd.setProgress(progresSpd);
         viewFx.statSpd.getStyleClass().add("stats");
 
+    }
+
+    public void chargerPokemonInitial(){
+        try{
+            Pokemon zapdos = dao.rechercheParNom("zapdos");
+
+            if(zapdos != null) {
+                this.pokemonActuel = zapdos;
+
+                afficherCartePokemon(this.pokemonActuel);
+
+                viewFx.btnCapturer.setText("Relâcher");
+                viewFx.messageStatut.setText("Bienvenue dans votre Pokédex!");
+            } else {
+                viewFx.msgErreur.setText("Pokémon inital n'a pas été trouvé dans la base de données.");
+            }
+        } catch (Exception e) {
+            viewFx.msgErreur.setText("Erreur lors du chargement du Pokémon initial.");
+            e.printStackTrace();
+        }
     }
 }
