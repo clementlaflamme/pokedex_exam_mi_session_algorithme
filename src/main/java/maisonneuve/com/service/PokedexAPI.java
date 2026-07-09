@@ -41,18 +41,12 @@ public class PokedexAPI {
         HttpRequest req = HttpRequest.newBuilder(URI.create(URL + recherche)).GET().build();
         HttpResponse<String> res;
 
-        try {
             res = client.send(req, HttpResponse.BodyHandlers.ofString());
 
             if (res.statusCode() == 404) {
                 System.err.println("Erreur : Le Pokémon '" + recherche + "' n'existe pas.");
                 return null;
             }
-
-        } catch (IOException | InterruptedException e) {
-            System.err.println("Erreur : " + e.getMessage());
-            return null;
-        }
 
         JsonNode pokemon = mapper.readTree(res.body());
         Pokemon p = new Pokemon();

@@ -1,11 +1,13 @@
 package maisonneuve.com.view;
 
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import maisonneuve.com.modele.Pokemon;
 
 import java.util.Optional;
@@ -54,6 +56,18 @@ public class PokemonViewFX {
         Optional<ButtonType> resultat = alert.showAndWait();
         return resultat.isPresent() && resultat.get() == ButtonType.OK;
     }
+
+    public void afficherErreurCritique(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Erreur !");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.showAndWait();
+        Platform.exit();
+    }
+
 
     public PokemonViewFX() {
 
