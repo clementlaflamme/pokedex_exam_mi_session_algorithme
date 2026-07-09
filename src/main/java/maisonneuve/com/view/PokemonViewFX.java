@@ -1,16 +1,12 @@
 package maisonneuve.com.view;
 
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+
 import java.util.Optional;
 
 public class PokemonViewFX {
@@ -35,9 +31,13 @@ public class PokemonViewFX {
     public Label def;
     public Label spd;
     public Label statPv;
+    public ProgressBar barrePv;
     public Label statAtk;
+    public ProgressBar barreAtk;
     public Label statDef;
+    public ProgressBar barreDef;
     public Label statSpd;
+    public ProgressBar barreSpd;
     public Label messageStatut;
     public Button btnCapturer;
 
@@ -86,7 +86,7 @@ public class PokemonViewFX {
         poidsPokemon = new Label("Ex : 24 kg");
         poids = new Label("Poids");
         poids.getStyleClass().add("subtitle");
-        taillePokemon = new Label("Ex: 5m");
+        taillePokemon = new Label("Ex: 50cm");
         taille = new Label("Taille");
         taille.getStyleClass().add("subtitle");
 
@@ -98,21 +98,32 @@ public class PokemonViewFX {
         statistiques = new Label("Statistiques de base");
         pv = new Label("PV");
         pv.setStyle("-fx-text-fill: grey;");
+
+
         atk = new Label("ATK");
         atk.setStyle("-fx-text-fill: grey;");
+
+
         def = new Label("DEF");
         def.setStyle("-fx-text-fill: grey;");
+
+
         spd = new Label("SPD");
         spd.setStyle("-fx-text-fill: grey;");
 
         statPv = new Label("Ex: 5");
+        barrePv = new ProgressBar(0.5);
         statAtk = new Label("Ex: 5");
+        barreAtk = new ProgressBar(0.5);
         statDef = new Label("Ex: 5");
+        barreDef = new ProgressBar(0.5);
         statSpd = new Label("Ex: 5");
+        barreSpd = new ProgressBar(0.5);
 
         VBox colLabels = new VBox(4, pv, atk, def, spd);
+        VBox colProgressBars = new VBox(4, barrePv, barreAtk, barreDef, barreSpd);
         VBox colStats = new VBox(4, statPv, statAtk, statDef, statSpd);
-        HBox stats = new HBox(2, colLabels, colStats);
+        HBox stats = new HBox(8, colLabels, colProgressBars, colStats);
 
         // Bouton capturer
         btnCapturer = new Button("Capturer");
