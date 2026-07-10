@@ -101,6 +101,7 @@ public class PokemonViewFX {
         VBox.setMargin(sousTitre, new Insets(-10, 0, 0, 0));
 
         barreRecherche = new TextField();
+        barreRecherche.setPromptText("Nom ou numéro de Pokémon");
         barreRecherche.getStyleClass().add("barre-recherche");
 
         msgErreur = new Label();
@@ -168,28 +169,28 @@ public class PokemonViewFX {
         // Poids et taille
         poidsPokemon = new Label("Ex : 24 kg");
         poids = new Label("POIDS :");
-        poids.setStyle("-fx-text-fill: grey;");
+        poids.setStyle("-fx-text-fill: darkslategrey;");
         taillePokemon = new Label("Ex: 50cm");
         taille = new Label("TAILLE :");
-        taille.setStyle("-fx-text-fill: grey;");
+        taille.setStyle("-fx-text-fill:  darkslategrey;");
 
         // Statistiques
         statistiques = new Label("Statistiques de base");
         statistiques.getStyleClass().add("titre-statistiques");
         pv = new Label("PV :");
-        pv.setStyle("-fx-text-fill: grey;");
+        pv.setStyle("-fx-text-fill: darkslategrey;");
 
 
         atq = new Label("ATQ :");
-        atq.setStyle("-fx-text-fill: grey;");
+        atq.setStyle("-fx-text-fill: darkslategrey;");
 
 
         def = new Label("DEF :");
-        def.setStyle("-fx-text-fill: grey;");
+        def.setStyle("-fx-text-fill: darkslategrey;");
 
 
         vit = new Label("VIT :");
-        vit.setStyle("-fx-text-fill: grey;");
+        vit.setStyle("-fx-text-fill: darkslategrey;");
 
         statPv = new Label("Ex: 5");
         barrePv = new ProgressBar(0.5);
