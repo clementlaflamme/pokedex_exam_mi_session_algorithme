@@ -7,7 +7,6 @@ import maisonneuve.com.controller.PokemonController;
 import maisonneuve.com.view.PokemonViewFX;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class MainFX extends Application {
 
@@ -21,7 +20,7 @@ public class MainFX extends Application {
 
         scene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Carter+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
-        String css = MainFX.class.getResource("/style.css").toExternalForm();
+        String css = MainFX.class.getResource("/css/style.css").toExternalForm();
         scene.getStylesheets().add(css);
 
         stage.setTitle("Pokédex - Recherchez vos pokémons préférés");

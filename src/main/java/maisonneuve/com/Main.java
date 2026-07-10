@@ -1,10 +1,5 @@
 package maisonneuve.com;
 
-import maisonneuve.com.modele.Pokemon;
-import maisonneuve.com.modele.PokemonDAO;
-import maisonneuve.com.service.PokedexAPI;
-import maisonneuve.com.util.InitSQL;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
