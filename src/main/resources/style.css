@@ -185,7 +185,7 @@
     -fx-background-radius: 20px;
     -fx-border-color: #87CDE6;
     -fx-border-width: 5px;
-    -fx-padding: 30px 10px 10px 10px;
+    -fx-padding: 20px 10px 10px 10px;
     -fx-background-color: D9D9D9;
 
 }
@@ -259,10 +259,6 @@
     -fx-background-color: #dddddd;
 }
 
-.img-liste {
-    -fx-margin: 100px;
-}
-
 .list-cell:odd {
     -fx-background-color: #cdcdcd;
 }
@@ -278,10 +274,11 @@
     -fx-border-radius: 25px;
     -fx-background-radius: 21px;
     -fx-background-insets: 4px;
-    -fx-font-size: 2em;
+    -fx-font-size: 1.7em;
     -fx-font-weight: bold;
     -fx-text-fill: white;
     -fx-font-family: "Carter One";
+    -fx-padding: 0px 30px 0px 30px;
 }
 
 .btn-capturer:hover {
@@ -309,4 +306,15 @@
 .titre-statistiques {
     -fx-font-size: 1.3em;
     -fx-font-weight: bold;
+}
+
+.cellule-nom {
+    -fx-font-weight: bold;
+    -fx-font-size: 1.2em;
+}
+
+.cellule-id {
+    -fx-text-fill: #808080;
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bolder;
 }

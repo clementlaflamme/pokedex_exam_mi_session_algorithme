@@ -17,7 +17,7 @@ public class MainFX extends Application {
         PokemonController ctrl = new PokemonController(view);
         ctrl.demarrer();
 
-        Scene scene = new Scene(view.getRoot(), 600, 1200);
+        Scene scene = new Scene(view.getRoot(), 540, 1080);
 
         scene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Carter+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
