@@ -204,11 +204,11 @@ public class PokemonController {
 
         viewFx.type1.setText(premiereLettreEnMaj(p.typePrincipal));
         String classeCss = p.typePrincipal;
-        viewFx.type1.getStyleClass().setAll(classeCss, "classLabel");
+        viewFx.type1.getStyleClass().setAll(classeCss, "pilule-type");
         if (p.typeSecondaire != null) {
             viewFx.type2.setText(premiereLettreEnMaj(p.typeSecondaire));
             classeCss = p.typeSecondaire;
-            viewFx.type2.getStyleClass().setAll(classeCss, "classLabel");
+            viewFx.type2.getStyleClass().setAll(classeCss, "pilule-type");
             viewFx.type2.setVisible(true);
         } else {
             viewFx.type2.setVisible(false);
