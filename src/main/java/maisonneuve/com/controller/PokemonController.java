@@ -43,7 +43,7 @@ public class PokemonController {
 
                             Platform.runLater(() -> {
                                 viewFx.msgErreur.setText(null);
-                                viewFx.messageStatut.setText("Le Pokémon " + premiereLettreEnMaj(pokemonActuel.nom) + " a été relâché");
+                                viewFx.messageStatut.setText("Le Pokémon " + premiereLettreEnMaj(pokemonActuel.nom) + " a été relâché ! ✅");
                                 viewFx.btnCapturer.setText("Capturer!?");
                                 pokemonDejaCapture = false;
                                 afficherListeCapture();
@@ -71,7 +71,7 @@ public class PokemonController {
 
                         Platform.runLater(() -> {
                             viewFx.msgErreur.setText(null);
-                            viewFx.messageStatut.setText("Le pokémon " + premiereLettreEnMaj(pokemonActuel.nom) + " a été capturé");
+                            viewFx.messageStatut.setText("Le pokémon " + premiereLettreEnMaj(pokemonActuel.nom) + " a été capturé ! ✅");
                             viewFx.btnCapturer.setText("Relâcher!?");
                             pokemonDejaCapture = true;
                             afficherListeCapture();
@@ -161,12 +161,13 @@ public class PokemonController {
 
                 Platform.runLater(() -> {
                     if (p[0] == null) {
-                        viewFx.msgErreur.setText("Aucun Pokémon ne correspond à votre recherche.");
+                        viewFx.msgErreur.setText("Aucun Pokémon ne correspond à votre recherche : '" + rechercheNettoyee + "'.");
                         viewFx.barreRecherche.setDisable(false);
+                        viewFx.barreRecherche.clear();
                     } else {
                         this.pokemonActuel = p[0];
                         afficherCartePokemon(p[0]);
-                        viewFx.messageStatut.setText("Le pokémon " + premiereLettreEnMaj(p[0].nom) + " a été trouvé !");
+                        viewFx.messageStatut.setText("Le pokémon " + premiereLettreEnMaj(p[0].nom) + " a été trouvé ! ✅");
                         viewFx.barreRecherche.setDisable(false);
                         viewFx.barreRecherche.clear();
                     }
@@ -210,12 +211,14 @@ public class PokemonController {
             classeCss = p.typeSecondaire;
             viewFx.type2.getStyleClass().setAll(classeCss, "pilule-type");
             viewFx.type2.setVisible(true);
+            viewFx.type2.setManaged(true);
         } else {
             viewFx.type2.setVisible(false);
+            viewFx.type2.setManaged(false);
         }
-        viewFx.poidsPokemon.setText(p.poids / 10 + " kg");
+        viewFx.poidsPokemon.setText(p.poids / 10 + "kg");
         viewFx.poidsPokemon.getStyleClass().add("stats");
-        viewFx.taillePokemon.setText(p.taille * 10 + " cm");
+        viewFx.taillePokemon.setText(p.taille * 10 + "cm");
         viewFx.taillePokemon.getStyleClass().add("stats");
 
         viewFx.statPv.setText(String.valueOf(p.pointsVie));
@@ -223,20 +226,20 @@ public class PokemonController {
         viewFx.barrePv.setProgress(progresPv);
         viewFx.statPv.getStyleClass().add("stats");
 
-        viewFx.statAtk.setText(String.valueOf(p.attaque));
-        double progresAtk = p.attaque / 200.0;
-        viewFx.barreAtk.setProgress(progresAtk);
-        viewFx.statAtk.getStyleClass().add("stats");
+        viewFx.statAtq.setText(String.valueOf(p.attaque));
+        double progresAtq = p.attaque / 200.0;
+        viewFx.barreAtq.setProgress(progresAtq);
+        viewFx.statAtq.getStyleClass().add("stats");
 
         viewFx.statDef.setText(String.valueOf(p.defense));
         double progresDef = p.defense / 255.0;
         viewFx.barreDef.setProgress(progresDef);
         viewFx.statDef.getStyleClass().add("stats");
 
-        viewFx.statSpd.setText(String.valueOf(p.vitesse));
-        double progresSpd = p.vitesse / 200.0;
-        viewFx.barreSpd.setProgress(progresSpd);
-        viewFx.statSpd.getStyleClass().add("stats");
+        viewFx.statVit.setText(String.valueOf(p.vitesse));
+        double progresVit = p.vitesse / 200.0;
+        viewFx.barreVit.setProgress(progresVit);
+        viewFx.statVit.getStyleClass().add("stats");
 
         Thread thread = new Thread(() -> {
             try {
@@ -296,7 +299,7 @@ public class PokemonController {
                 afficherCartePokemon(this.pokemonActuel);
 
                 viewFx.btnCapturer.setText("Relâcher !?");
-                viewFx.messageStatut.setText("Bienvenue dans votre Pokédex!");
+                viewFx.messageStatut.setText("Bienvenue dans votre Pokédex !");
             } else {
                 viewFx.msgErreur.setText("Pokémon inital n'a pas été trouvé dans la base de données.");
             }

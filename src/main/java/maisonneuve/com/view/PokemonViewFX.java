@@ -33,17 +33,17 @@ public class PokemonViewFX {
     public Label taille;
     public Label statistiques;
     public Label pv;
-    public Label atk;
+    public Label atq;
     public Label def;
-    public Label spd;
+    public Label vit;
     public Label statPv;
     public ProgressBar barrePv;
-    public Label statAtk;
-    public ProgressBar barreAtk;
+    public Label statAtq;
+    public ProgressBar barreAtq;
     public Label statDef;
     public ProgressBar barreDef;
-    public Label statSpd;
-    public ProgressBar barreSpd;
+    public Label statVit;
+    public ProgressBar barreVit;
     public Label messageStatut;
     public Button btnCapturer;
     public Label titreListe;
@@ -82,13 +82,14 @@ public class PokemonViewFX {
 
         sousTitre = new Label("Recherchez tous vos pokémons préférés !");
         sousTitre.getStyleClass().add("sous-titre");
+        VBox.setMargin(sousTitre, new Insets(-10, 0, 0, 0));
 
         barreRecherche = new TextField();
         barreRecherche.getStyleClass().add("barre-recherche");
 
         msgErreur = new Label();
-        msgErreur.getStyleClass().add("");
-        VBox haut = new VBox(8, titre, sousTitre, barreRecherche, msgErreur);
+        msgErreur.getStyleClass().add("message-erreur");
+        VBox haut = new VBox(5, titre, sousTitre, barreRecherche, msgErreur);
         haut.setAlignment(Pos.TOP_CENTER);
         haut.getStyleClass().add("boite-haut");
 
@@ -124,50 +125,83 @@ public class PokemonViewFX {
 
         // Poids et taille
         poidsPokemon = new Label("Ex : 24 kg");
-        poids = new Label("Poids : ");
-        poids.getStyleClass().add("");
+        poids = new Label("POIDS :");
+        poids.setStyle("-fx-text-fill: grey;");
         taillePokemon = new Label("Ex: 50cm");
-        taille = new Label("Taille : ");
-        taille.getStyleClass().add("");
-
-        HBox boitePoids = new HBox(2, poids, poidsPokemon);
-        HBox boiteTaille = new HBox(2, taille, taillePokemon);
-        HBox poidsTaille = new HBox(2, boitePoids, boiteTaille);
-        poidsTaille.setAlignment(Pos.CENTER);
+        taille = new Label("TAILLE :");
+        taille.setStyle("-fx-text-fill: grey;");
 
         // Statistiques
         statistiques = new Label("Statistiques de base");
-        pv = new Label("PV");
+        statistiques.getStyleClass().add("titre-statistiques");
+        pv = new Label("PV :");
         pv.setStyle("-fx-text-fill: grey;");
 
 
-        atk = new Label("ATK");
-        atk.setStyle("-fx-text-fill: grey;");
+        atq = new Label("ATQ :");
+        atq.setStyle("-fx-text-fill: grey;");
 
 
-        def = new Label("DEF");
+        def = new Label("DEF :");
         def.setStyle("-fx-text-fill: grey;");
 
 
-        spd = new Label("SPD");
-        spd.setStyle("-fx-text-fill: grey;");
+        vit = new Label("VIT :");
+        vit.setStyle("-fx-text-fill: grey;");
 
         statPv = new Label("Ex: 5");
         barrePv = new ProgressBar(0.5);
-        statAtk = new Label("Ex: 5");
-        barreAtk = new ProgressBar(0.5);
+        statAtq = new Label("Ex: 5");
+        barreAtq = new ProgressBar(0.5);
         statDef = new Label("Ex: 5");
         barreDef = new ProgressBar(0.5);
-        statSpd = new Label("Ex: 5");
-        barreSpd = new ProgressBar(0.5);
+        statVit = new Label("Ex: 5");
+        barreVit = new ProgressBar(0.5);
 
-        VBox colLabels = new VBox(4, pv, atk, def, spd);
-        VBox colProgressBars = new VBox(4, barrePv, barreAtk, barreDef, barreSpd);
-        VBox colStats = new VBox(4, statPv, statAtk, statDef, statSpd);
-        HBox stats = new HBox(8, colLabels, colProgressBars, colStats);
+        barrePv.setMinSize(150, 15);
+        barrePv.setPrefSize(150, 15);
+        barrePv.setMaxSize(150, 15);
+
+        barreAtq.setMinSize(150, 15);
+        barreAtq.setPrefSize(150, 15);
+        barreAtq.setMaxSize(150, 15);
+
+        barreDef.setMinSize(150, 15);
+        barreDef.setPrefSize(150, 15);
+        barreDef.setMaxSize(150, 15);
+
+        barreVit.setMinSize(150, 15);
+        barreVit.setPrefSize(150, 15);
+        barreVit.setMaxSize(150, 15);
+
+
+        // Colonne 1
+        HBox boitePoids = new HBox(2, poids, poidsPokemon);
+        boitePoids.setAlignment(Pos.BASELINE_CENTER);
+        
+        HBox boitePv = new HBox(2, pv, statPv);
+        boitePv.setAlignment(Pos.BASELINE_CENTER);
+        
+        HBox boiteAtq = new HBox(2, atq, statAtq);
+        boiteAtq.setAlignment(Pos.BASELINE_CENTER);
+
+        // Colonne 2
+        HBox boiteTaille = new HBox(2, taille, taillePokemon);
+        boiteTaille.setAlignment(Pos.BASELINE_CENTER);
+        
+        HBox boiteVit = new HBox(2, vit, statVit);
+        boiteVit.setAlignment(Pos.BASELINE_CENTER);
+        
+        HBox boiteDef = new HBox(2, def, statDef);
+        boiteDef.setAlignment(Pos.BASELINE_CENTER);
+
+        VBox col1 = new VBox(5, boitePoids, boitePv, barrePv, boiteAtq, barreAtq);
+        VBox col2 = new VBox(5, boiteTaille, boiteVit, barreVit, boiteDef, barreDef);
+        HBox stats = new HBox(16, col1, col2);
+        stats.setAlignment(Pos.CENTER);
 
         // Vbox pour la carte
-        VBox carteStats = new VBox(10, carte, types, ligneSeparation, statistiques,poidsTaille, stats);
+        VBox carteStats = new VBox(10, carte, types, ligneSeparation, statistiques, stats);
         carteStats.getStyleClass().add("carte-pokemon");
         carteStats.setAlignment(Pos.CENTER);
         VBox.setMargin(carteStats, new Insets(20));
@@ -188,6 +222,7 @@ public class PokemonViewFX {
         // Liste des pokémons capturés
         titreListe = new Label("Liste des Pokémons capturés");
         listePokemonsCaptures = new ListView<>();
+        listePokemonsCaptures.setFixedCellSize(40);
 
         // Hbox Image Ash et liste pokémons
         HBox imgListe = new HBox(4, imageViewAsh, listePokemonsCaptures);
