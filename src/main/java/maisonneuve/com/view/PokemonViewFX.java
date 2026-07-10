@@ -3,6 +3,7 @@ package maisonneuve.com.view;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -21,6 +22,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
+import javafx.scene.effect.BlendMode;
 
 import java.util.Optional;
 
@@ -58,8 +60,10 @@ public class PokemonViewFX {
     public Label titreListe;
     public ListView<Pokemon> listePokemonsCaptures;
     public ImageView imageViewAsh;
+    public ImageView imageViewPokeball;
     public Separator ligneSeparation;
     public StackPane stackPaneBtnCapturer;
+    public StackPane stackEntete;
 
     // demande de confirmation lors de la libération d'un Pokémon
     public boolean afficherConfirmation(String titre, String message) {
@@ -102,6 +106,32 @@ public class PokemonViewFX {
         VBox haut = new VBox(5, titre, sousTitre, barreRecherche, msgErreur);
         haut.setAlignment(Pos.TOP_CENTER);
         haut.getStyleClass().add("boite-haut");
+
+        // image de pokeball + grosseur et emplacement + stack
+        String cheminImagePokeball = getClass().getResource("/images/pokeball.png").toExternalForm();
+        Image imagePokeball = new Image(cheminImagePokeball);
+        imageViewPokeball = new ImageView(imagePokeball);
+        imageViewPokeball.setBlendMode(BlendMode.MULTIPLY);
+
+        stackEntete = new StackPane(haut);
+        stackEntete.getStyleClass().add("stack-entete");
+        imageViewPokeball.setFitWidth(175);
+        imageViewPokeball.setPreserveRatio(true);
+
+        // un group est utilisé pour contourner une limitation de setClip avec l'utilisation de setBlendMode
+        Group groupPokeball = new Group(imageViewPokeball);
+        groupPokeball.setManaged(false);
+        groupPokeball.layoutXProperty().bind(stackEntete.widthProperty().multiply(0.7));
+        groupPokeball.layoutYProperty().bind(stackEntete.heightProperty().multiply(0.15));
+
+        // masque et découpe de la pokéball
+        Pane decoupePokeball = new Pane(groupPokeball); // panneau pour éviter de faire le masque sur le stack global et perdre les ombres CSS
+        Rectangle masqueEntete = new Rectangle();
+        masqueEntete.widthProperty().bind(stackEntete.widthProperty());
+        masqueEntete.heightProperty().bind(stackEntete.heightProperty());
+        decoupePokeball.setClip(masqueEntete);
+        stackEntete.setClip(null);
+        stackEntete.getChildren().add(0, decoupePokeball);
 
         // Zone centrale : carte du pokémon
         image = new ImageView();
@@ -259,7 +289,7 @@ public class PokemonViewFX {
         messageStatut.setAlignment(Pos.CENTER);
 
         racine = new BorderPane();
-        racine.setTop(haut);
+        racine.setTop(stackEntete);
         racine.setCenter(centre);
         racine.setBottom(messageStatut);
         //BorderPane.setAlignment(messageStatut, Pos.BOTTOM_CENTER);
@@ -298,6 +328,7 @@ public class PokemonViewFX {
         });
 
     }
+
 
     public void animationDeclencherBalayage(StackPane stackBouton, Region bouton) {
         double largeur = bouton.getWidth();
