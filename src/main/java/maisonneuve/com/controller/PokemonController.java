@@ -2,8 +2,11 @@ package maisonneuve.com.controller;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import maisonneuve.com.modele.Pokemon;
 import maisonneuve.com.modele.PokemonDAO;
 import maisonneuve.com.service.PokedexAPI;
@@ -102,24 +105,37 @@ public class PokemonController {
                     setText(null);
                     setGraphic(null);
                 } else {
+                    setText(null);
 
-                    // Initialisation du cadre de l'image
                     imageView.setFitWidth(40);
                     imageView.setFitHeight(40);
                     imageView.setPreserveRatio(true);
 
-                    // Les composants qui sont affichés dans la liste
-                    setText(premiereLettreEnMaj(pokemon.nom));
-
-                    // Si l'image est valide, on l'affiche
                     if (pokemon.imageUrl != null && !pokemon.imageUrl.isEmpty()) {
                         Image img = new Image(pokemon.imageUrl, 40, 40, true, true, true);
                         imageView.setImage(img);
-
-                        setGraphic(imageView);
                     } else {
-                        setGraphic(null);
+                        imageView.setImage(null);
                     }
+
+                    Label nomLabel = new Label(premiereLettreEnMaj(pokemon.nom));
+                    Label idLabel = new Label("#" + String.valueOf(pokemon.idPokedex));
+
+                    nomLabel.getStyleClass().add("cellule-nom");
+                    idLabel.getStyleClass().add("cellule-id");
+
+                    BorderPane conteneurCellule = new BorderPane();
+
+                    conteneurCellule.setLeft(imageView);
+                    conteneurCellule.setCenter(nomLabel);
+                    conteneurCellule.setRight(idLabel);
+
+
+                    BorderPane.setAlignment(imageView, Pos.CENTER_LEFT);
+                    BorderPane.setAlignment(nomLabel, Pos.CENTER);
+                    BorderPane.setAlignment(idLabel, Pos.CENTER_RIGHT);
+
+                    setGraphic(conteneurCellule);
                 }
             }
         });

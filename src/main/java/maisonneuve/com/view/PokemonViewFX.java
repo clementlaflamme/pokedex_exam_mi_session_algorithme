@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import maisonneuve.com.modele.Pokemon;
@@ -95,8 +96,8 @@ public class PokemonViewFX {
 
         // Zone centrale : carte du pokémon
         image = new ImageView();
-        image.setFitWidth(250);
-        image.setFitHeight(250);
+        image.setFitWidth(175);
+        image.setFitHeight(175);
         image.getStyleClass().add("image-pokemon");
         HBox cadreImage = new HBox(image);
         cadreImage.getStyleClass().add("cadre-image");
@@ -204,34 +205,43 @@ public class PokemonViewFX {
         VBox carteStats = new VBox(10, carte, types, ligneSeparation, statistiques, stats);
         carteStats.getStyleClass().add("carte-pokemon");
         carteStats.setAlignment(Pos.CENTER);
-        VBox.setMargin(carteStats, new Insets(20));
+        VBox.setMargin(carteStats, new Insets(15, 15, 5, 15 ));
 
         // Bouton capturer
         btnCapturer = new Button("Capturer !?");
         btnCapturer.getStyleClass().add("btn-capturer");
-        HBox conteneurBouton = new HBox(10, btnCapturer);
+        HBox conteneurBouton = new HBox(btnCapturer);
         conteneurBouton.setAlignment(Pos.CENTER);
+        btnCapturer.setMinHeight(40);
+        btnCapturer.setPrefHeight(40);
+        btnCapturer.setMaxHeight(40);
+
 
         //Image de Ash
         String cheminImageAsh = getClass().getResource("/images/ashCut.png").toExternalForm();
         Image imageAsh = new Image(cheminImageAsh);
         imageViewAsh = new ImageView(imageAsh);
-        imageViewAsh.setFitWidth(200);
+        imageViewAsh.setFitWidth(150);
         imageViewAsh.setPreserveRatio(true);
 
         // Liste des pokémons capturés
         titreListe = new Label("Liste des Pokémons capturés");
         listePokemonsCaptures = new ListView<>();
         listePokemonsCaptures.setFixedCellSize(40);
+        listePokemonsCaptures.setPrefHeight(250);
+        listePokemonsCaptures.setMaxHeight(250);
+        HBox cadreListe = new HBox(listePokemonsCaptures);
+        cadreListe.setAlignment(Pos.CENTER);
 
         // Hbox Image Ash et liste pokémons
-        HBox imgListe = new HBox(4, imageViewAsh, listePokemonsCaptures);
-        imgListe.getStyleClass().add("img-liste");
+        HBox imgListe = new HBox(4, imageViewAsh, cadreListe);
+        HBox.setHgrow(listePokemonsCaptures, Priority.ALWAYS);
         imgListe.setAlignment(Pos.BOTTOM_CENTER);
+        VBox.setMargin(imgListe, new Insets(0, 15, 0, 15));
+        VBox.setVgrow(imgListe, Priority.ALWAYS);
 
         // Assemblage
         VBox centre = new VBox(2, carteStats, conteneurBouton, imgListe);
-        centre.getStyleClass().add("boite-centre");
 
         // Zone du bas
         messageStatut = new Label("Ex: Pikachu chargé avec succès !");
