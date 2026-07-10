@@ -7,6 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -14,6 +18,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import maisonneuve.com.modele.Pokemon;
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
 
 import java.util.Optional;
 
@@ -52,6 +60,7 @@ public class PokemonViewFX {
     public ListView<Pokemon> listePokemonsCaptures;
     public ImageView imageViewAsh;
     public Separator ligneSeparation;
+    public StackPane stackPaneBtnCapturer;
 
     // demande de confirmation lors de la libération d'un Pokémon
     public boolean afficherConfirmation(String titre, String message) {
@@ -212,7 +221,8 @@ public class PokemonViewFX {
         // Bouton capturer
         btnCapturer = new Button("Capturer !?");
         btnCapturer.getStyleClass().add("btn-capturer");
-        HBox conteneurBouton = new HBox(btnCapturer);
+        stackPaneBtnCapturer = new StackPane(btnCapturer);
+        HBox conteneurBouton = new HBox(stackPaneBtnCapturer);
         conteneurBouton.setAlignment(Pos.CENTER);
         btnCapturer.setMinHeight(40);
         btnCapturer.setPrefHeight(40);
@@ -260,6 +270,73 @@ public class PokemonViewFX {
         cadreImage.maxWidthProperty().bind(racine.widthProperty().multiply(0.50));
         btnCapturer.prefWidthProperty().bind(carte.widthProperty());
         listePokemonsCaptures.prefWidthProperty().bind(carte.widthProperty());
+    }
+
+    public void animationImageApparition(ImageView image) {
+        image.setOpacity(0.0);
+        FadeTransition fade = new FadeTransition(Duration.seconds(1.5), image);
+        fade.setFromValue(0.0);
+        fade.setToValue(1.0);
+        fade.play();
+    }
+
+    public void animationBoutonGrosseur(StackPane stackBouton) {
+        ScaleTransition zoomIn = new ScaleTransition(Duration.seconds(0.2), stackBouton);
+        zoomIn.setToX(1.1);
+        zoomIn.setToY(1.1);
+
+        ScaleTransition zoomOut = new ScaleTransition(Duration.seconds(0.2), stackBouton);
+        zoomOut.setToX(1.06);
+        zoomOut.setToY(1.06);
+
+        stackBouton.setOnMouseEntered(event -> {
+            zoomOut.stop(); // on stop d'abord pour arreter l'animation si elle est en train de jouer
+            zoomIn.play();
+        });
+
+        stackBouton.setOnMouseExited(event -> {
+            zoomIn.stop();
+            zoomOut.play();
+        });
+
+    }
+
+    public void animationDeclencherBalayage(StackPane stackBouton, Region bouton) {
+        double largeur = bouton.getWidth();
+        double hauteur = bouton.getHeight();
+        double hauteurForme = hauteur + 300;
+
+        // la forme blanche c'est le shine qui passe sur le bouton
+        Rectangle formeBlanche = new Rectangle(60, hauteurForme);
+        formeBlanche.setFill(Color.web("#FFFFFF", 0.65));
+
+        // rotation à partir d'un nouveau pivot au centre de la forme pour éviter des problèmes de positionnement
+        // utiliser simplement .setRotate effectuerait un pivot à partir du coin supérieur gauche
+        Rotate r = new Rotate(30, 20, hauteurForme / 2);
+        formeBlanche.getTransforms().add(r);
+
+        formeBlanche.setMouseTransparent(true); // pour ne pas bloquer les clics
+        formeBlanche.setManaged(false); // empeche le hbox de se resizer a l'apparition de la forme
+
+        // création d'un masque de la taille du bouton avec les mêmes valeurs de border-radius
+        Rectangle masque = new Rectangle(largeur, hauteur);
+        masque.setArcWidth(25);
+        masque.setArcHeight(25);
+
+        // appliquer le masque et envoyer la forme blanche dans le StackPane
+        stackBouton.setClip(masque);
+        stackBouton.getChildren().add(formeBlanche);
+
+        // animation de gauche à droite
+        formeBlanche.setTranslateX(-largeur - 80); // Départ caché à gauche
+        formeBlanche.setTranslateY(-hauteurForme / 2 );
+
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(.7), formeBlanche);
+        tt.setToX(largeur + 80); // Arrivée cachée à droite
+
+        tt.setOnFinished(e -> stackBouton.getChildren().remove(formeBlanche));
+
+        tt.play();
     }
 
     public Parent getRoot() {return racine;}

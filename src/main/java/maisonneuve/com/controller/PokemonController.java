@@ -35,6 +35,7 @@ public class PokemonController {
         // Écoute pour le btnCapturer pour capturer le pokémon
         // btnCapturer affiche Relacher et permet de relacher un pokémon si il existe déjà dans la BD
         viewFx.btnCapturer.setOnAction(_ -> {
+            viewFx.animationDeclencherBalayage(viewFx.stackPaneBtnCapturer, viewFx.btnCapturer);
             if (pokemonDejaCapture) {
                 // Relâcher un Pokémon avec popup de confirmation
                 String messageRelache = "Êtes-vous sûr de vouloir relâcher " + premiereLettreEnMaj(pokemonActuel.nom) + "?";
@@ -93,6 +94,10 @@ public class PokemonController {
                 threadCapture.start();
             }
         });
+
+        // Écoute du bouton pour l'animation
+        viewFx.animationBoutonGrosseur(viewFx.stackPaneBtnCapturer);
+
 
         // Définir ce qui est affiché dans la liste des Pokémons capturés
         viewFx.listePokemonsCaptures.setCellFactory((_) -> new javafx.scene.control.ListCell<>() {
@@ -212,6 +217,7 @@ public class PokemonController {
         Image image = new Image(p.imageUrl, 200, 0, true, true, true);
         viewFx.image.setImage(image);
         viewFx.image.getStyleClass().add("image");
+        viewFx.animationImageApparition(viewFx.image);
 
         viewFx.nomPokemon.setText(premiereLettreEnMaj(p.nom));
         viewFx.nomPokemon.getStyleClass().add("nom");
