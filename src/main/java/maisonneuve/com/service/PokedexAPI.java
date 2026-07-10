@@ -3,7 +3,6 @@ package maisonneuve.com.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import maisonneuve.com.modele.Pokemon;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -41,12 +40,12 @@ public class PokedexAPI {
         HttpRequest req = HttpRequest.newBuilder(URI.create(URL + recherche)).GET().build();
         HttpResponse<String> res;
 
-            res = client.send(req, HttpResponse.BodyHandlers.ofString());
+        res = client.send(req, HttpResponse.BodyHandlers.ofString());
 
-            if (res.statusCode() == 404) {
-                System.err.println("Erreur : Le Pokémon '" + recherche + "' n'existe pas.");
-                return null;
-            }
+        if (res.statusCode() == 404) {
+            System.err.println("Erreur : Le Pokémon '" + recherche + "' n'existe pas.");
+            return null;
+        }
 
         JsonNode pokemon = mapper.readTree(res.body());
         Pokemon p = new Pokemon();

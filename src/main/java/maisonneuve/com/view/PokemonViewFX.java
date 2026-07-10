@@ -17,7 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import maisonneuve.com.modele.Pokemon;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -25,6 +24,7 @@ import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import javafx.scene.effect.BlendMode;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class PokemonViewFX {
@@ -110,7 +110,7 @@ public class PokemonViewFX {
         haut.getStyleClass().add("boite-haut");
 
         // image de pokeball + grosseur et emplacement + stack
-        String cheminImagePokeball = getClass().getResource("/images/pokeball.png").toExternalForm();
+        String cheminImagePokeball = Objects.requireNonNull(getClass().getResource("/images/pokeball.png")).toExternalForm();
         Image imagePokeball = new Image(cheminImagePokeball);
         imageViewPokeball = new ImageView(imagePokeball);
         imageViewPokeball.setBlendMode(BlendMode.MULTIPLY);
@@ -133,7 +133,7 @@ public class PokemonViewFX {
         masqueEntete.heightProperty().bind(stackEntete.heightProperty());
         decoupePokeball.setClip(masqueEntete);
         stackEntete.setClip(null);
-        stackEntete.getChildren().add(0, decoupePokeball);
+        stackEntete.getChildren().addFirst(decoupePokeball);
 
         // Zone centrale : carte du pokémon
         image = new ImageView();
@@ -260,7 +260,7 @@ public class PokemonViewFX {
 
 
         //Image de Ash
-        String cheminImageAsh = getClass().getResource("/images/ashCut.png").toExternalForm();
+        String cheminImageAsh = Objects.requireNonNull(getClass().getResource("/images/ashCut.png")).toExternalForm();
         Image imageAsh = new Image(cheminImageAsh);
         imageViewAsh = new ImageView(imageAsh);
         imageViewAsh.setFitWidth(150);
@@ -319,12 +319,12 @@ public class PokemonViewFX {
         zoomOut.setToX(1.0);
         zoomOut.setToY(1.0);
 
-        stackBouton.setOnMouseEntered(event -> {
+        stackBouton.setOnMouseEntered((_)-> {
             zoomOut.stop(); // on stop d'abord pour arreter l'animation si elle est en train de jouer
             zoomIn.play();
         });
 
-        stackBouton.setOnMouseExited(event -> {
+        stackBouton.setOnMouseExited(_ -> {
             zoomIn.stop();
             zoomOut.play();
         });
@@ -367,7 +367,7 @@ public class PokemonViewFX {
         TranslateTransition tt = new TranslateTransition(Duration.seconds(.7), formeBlanche);
         tt.setToX(largeur + 80); // Arrivée cachée à droite
 
-        tt.setOnFinished(e -> stackBouton.getChildren().remove(formeBlanche));
+        tt.setOnFinished(_ -> stackBouton.getChildren().remove(formeBlanche));
 
         tt.play();
     }
