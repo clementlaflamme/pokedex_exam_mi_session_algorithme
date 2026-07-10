@@ -17,7 +17,7 @@ public class MainFX extends Application {
         PokemonController ctrl = new PokemonController(view);
         ctrl.demarrer();
 
-        Scene scene = new Scene(view.getRoot(), 900, 500);
+        Scene scene = new Scene(view.getRoot(), 900, 1000);
 
         String css = MainFX.class.getResource("/style.css").toExternalForm();
         scene.getStylesheets().add(css);
