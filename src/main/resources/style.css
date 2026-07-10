@@ -1,3 +1,4 @@
+
 * {
     -type-normal: #C3B59B;
     -type-feu: #F7941F;
@@ -19,17 +20,20 @@
     -type-fee: #F392BD;
     -pokeball-red: #FF3231;
     -pokeball-darkred: #ba222f;
+    -pokeball-gradient: linear-gradient(to top, -pokeball-red, -pokeball-darkred);
 }
 
 .pilule-type {
-    -fx-padding: 10px;
+    -fx-padding: 5px;
     -fx-border-radius: 50px;
     -fx-background-radius: 50px;
-    -fx-min-width: 40px;
+    -fx-min-width: 65px;
     -fx-pref-width: 100px;
     -fx-alignment: center;
     -fx-border-width: 3px;
-    -fx-border-color: #87CDE6;
+    -fx-border-color: #90adcb;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.5em;
 }
 
 .normal {
@@ -157,7 +161,7 @@
     -fx-border-radius: 50px;
     -fx-background-radius: 50px;
     -fx-border-color: black;
-    -fx-border-width: 2px;
+    -fx-border-width: 3px;
     -fx-pref-height: 3em;
     -fx-padding: 0px 20px;
     -fx-background-color: #ABABAB;
@@ -165,7 +169,7 @@
 
 .boite-haut {
     -fx-border-color: black;
-    -fx-background-color: #D51828;
+    -fx-background-color: -pokeball-gradient;
     -fx-border-width: 15px 0;
 }
 
@@ -188,6 +192,18 @@
 
 .ligne-separation {
     -fx-padding: 10px 0;
+}
+
+.separator .line {
+    -fx-border-color: transparent;
+    -fx-background-color: linear-gradient(to right,
+    transparent 0%,
+    #b3b3b3 5%,
+    #b3b3b3 95%,
+    transparent 100%
+    );
+    -fx-padding: 10px 0;
+    -fx-pref-height: 3px;
 }
 
 .ligne-separation .line {
@@ -218,6 +234,65 @@
 .progress-bar > .bar {
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
-    -fx-background-color: -pokeball-darkred;
+    -fx-background-color: -pokeball-gradient;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #86cbe4;
+    -fx-border-radius: 25px;
+    -fx-background-radius: 25px;
+    -fx-border-width: 4px;
+
+}
+
+.list-view .viewport {
+    -fx-background-color: transparent;
+}
+
+
+.list-cell:even {
+    -fx-background-color: #dddddd;
+}
+
+.img-liste {
+    -fx-margin: 100px;
+}
+
+.list-cell:odd {
+    -fx-background-color: #cdcdcd;
+}
+
+.list-cell:hover {
+    -fx-background-color: #90adcb;
+}
+
+.btn-capturer {
+    -fx-background-color: -pokeball-gradient;
+    -fx-border-width: 4px;
+    -fx-border-color: black;
+    -fx-border-radius: 25px;
+    -fx-background-radius: 21px;
+    -fx-background-insets: 4px;
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-family: "Carter One";
+}
+
+.btn-capturer:hover {
+    -fx-background-color: linear-gradient(to top, #edd12d, #daa22f);
+    -fx-text-fill: black;
+}
+
+.statut {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-border-color: -pokeball-gradient;
+    -fx-border-width: 15 0 0 0;
+    -fx-padding: 10 0 10 0 ;
+    -fx-max-width: infinity;
+    -fx-alignment: center;
+
 
 }

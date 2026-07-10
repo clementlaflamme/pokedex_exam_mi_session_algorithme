@@ -44,7 +44,7 @@ public class PokemonController {
                             Platform.runLater(() -> {
                                 viewFx.msgErreur.setText(null);
                                 viewFx.messageStatut.setText("Le Pokémon " + premiereLettreEnMaj(pokemonActuel.nom) + " a été relâché");
-                                viewFx.btnCapturer.setText("Capturer");
+                                viewFx.btnCapturer.setText("Capturer!?");
                                 pokemonDejaCapture = false;
                                 afficherListeCapture();
                             });
@@ -72,7 +72,7 @@ public class PokemonController {
                         Platform.runLater(() -> {
                             viewFx.msgErreur.setText(null);
                             viewFx.messageStatut.setText("Le pokémon " + premiereLettreEnMaj(pokemonActuel.nom) + " a été capturé");
-                            viewFx.btnCapturer.setText("Relâcher");
+                            viewFx.btnCapturer.setText("Relâcher!?");
                             pokemonDejaCapture = true;
                             afficherListeCapture();
                         });
@@ -245,9 +245,9 @@ public class PokemonController {
                 Platform.runLater(() -> {
                     pokemonDejaCapture = estCapture;
                     if (!estCapture) {
-                        viewFx.btnCapturer.setText("Capturer");
+                        viewFx.btnCapturer.setText("Capturer !?");
                     } else {
-                        viewFx.btnCapturer.setText("Relâcher");
+                        viewFx.btnCapturer.setText("Relâcher !?");
                     }
                 });
             } catch (SQLException ex) {
@@ -295,7 +295,7 @@ public class PokemonController {
 
                 afficherCartePokemon(this.pokemonActuel);
 
-                viewFx.btnCapturer.setText("Relâcher");
+                viewFx.btnCapturer.setText("Relâcher !?");
                 viewFx.messageStatut.setText("Bienvenue dans votre Pokédex!");
             } else {
                 viewFx.msgErreur.setText("Pokémon inital n'a pas été trouvé dans la base de données.");

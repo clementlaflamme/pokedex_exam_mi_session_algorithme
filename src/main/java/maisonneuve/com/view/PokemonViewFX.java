@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -120,7 +121,6 @@ public class PokemonViewFX {
 
         // Ligne de séparation
         ligneSeparation = new Separator();
-        ligneSeparation.getStyleClass().add("ligne-separation");
 
         // Poids et taille
         poidsPokemon = new Label("Ex : 24 kg");
@@ -173,10 +173,17 @@ public class PokemonViewFX {
         VBox.setMargin(carteStats, new Insets(20));
 
         // Bouton capturer
-        btnCapturer = new Button("Capturer");
+        btnCapturer = new Button("Capturer !?");
+        btnCapturer.getStyleClass().add("btn-capturer");
+        HBox conteneurBouton = new HBox(10, btnCapturer);
+        conteneurBouton.setAlignment(Pos.CENTER);
 
         //Image de Ash
-        imageViewAsh = new ImageView();
+        String cheminImageAsh = getClass().getResource("/images/ashCut.png").toExternalForm();
+        Image imageAsh = new Image(cheminImageAsh);
+        imageViewAsh = new ImageView(imageAsh);
+        imageViewAsh.setFitWidth(200);
+        imageViewAsh.setPreserveRatio(true);
 
         // Liste des pokémons capturés
         titreListe = new Label("Liste des Pokémons capturés");
@@ -184,21 +191,28 @@ public class PokemonViewFX {
 
         // Hbox Image Ash et liste pokémons
         HBox imgListe = new HBox(4, imageViewAsh, listePokemonsCaptures);
+        imgListe.getStyleClass().add("img-liste");
+        imgListe.setAlignment(Pos.BOTTOM_CENTER);
 
         // Assemblage
-        VBox centre = new VBox(2, carteStats, btnCapturer, imgListe);
+        VBox centre = new VBox(2, carteStats, conteneurBouton, imgListe);
         centre.getStyleClass().add("boite-centre");
 
         // Zone du bas
         messageStatut = new Label("Ex: Pikachu chargé avec succès !");
+        messageStatut.getStyleClass().add("statut");
+        messageStatut.setAlignment(Pos.CENTER);
 
         racine = new BorderPane();
         racine.setTop(haut);
         racine.setCenter(centre);
         racine.setBottom(messageStatut);
+        //BorderPane.setAlignment(messageStatut, Pos.BOTTOM_CENTER);
         barreRecherche.maxWidthProperty().bind(racine.widthProperty().multiply(0.50));
         ligneSeparation.maxWidthProperty().bind(racine.widthProperty().multiply(0.75));
         cadreImage.maxWidthProperty().bind(racine.widthProperty().multiply(0.50));
+        btnCapturer.prefWidthProperty().bind(carte.widthProperty());
+        listePokemonsCaptures.prefWidthProperty().bind(carte.widthProperty());
     }
 
     public Parent getRoot() {return racine;}
