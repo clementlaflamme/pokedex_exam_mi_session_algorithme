@@ -290,6 +290,7 @@ public class PokemonViewFX {
         messageStatut = new Label("Bienvenue dans votre Pokédex !");
         messageStatut.getStyleClass().add("statut");
         messageStatut.setAlignment(Pos.CENTER);
+        messageStatut.setMouseTransparent(true);
 
         racine = new BorderPane();
         racine.setTop(stackEntete);
