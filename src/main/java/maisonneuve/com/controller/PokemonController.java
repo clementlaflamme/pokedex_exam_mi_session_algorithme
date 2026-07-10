@@ -10,11 +10,11 @@ import javafx.scene.layout.BorderPane;
 import maisonneuve.com.modele.Pokemon;
 import maisonneuve.com.modele.PokemonDAO;
 import maisonneuve.com.service.PokedexAPI;
-import maisonneuve.com.util.InitSQL;
 import maisonneuve.com.view.PokemonViewFX;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonController {
@@ -144,16 +144,14 @@ public class PokemonController {
         viewFx.listePokemonsCaptures.getSelectionModel().selectedItemProperty().addListener((_, _, nouveau) -> {
             if (nouveau != null) {
                 afficherCartePokemon(nouveau);
-                pokemonActuel = nouveau;
             }
         });
 
     }
 
     public void demarrer() throws IOException {
-        verifierChargementBd();
-        afficherListeCapture();
         chargerPokemonInitial();
+        afficherListeCapture();
     }
 
     // Rechercher par titre ou par id sur l'API Pokedex
@@ -181,9 +179,8 @@ public class PokemonController {
                         viewFx.barreRecherche.setDisable(false);
                         viewFx.barreRecherche.clear();
                     } else {
-                        this.pokemonActuel = p[0];
                         afficherCartePokemon(p[0]);
-                        viewFx.messageStatut.setText("Le pokémon " + premiereLettreEnMaj(p[0].nom) + " a été trouvé ! ✅");
+                        viewFx.messageStatut.setText("Le Pokémon " + premiereLettreEnMaj(p[0].nom) + " a été trouvé ! ✅");
                         viewFx.barreRecherche.setDisable(false);
                         viewFx.barreRecherche.clear();
                     }
@@ -209,6 +206,8 @@ public class PokemonController {
 
     // Afficher la carte du pokémon
     public void afficherCartePokemon(Pokemon p) {
+        pokemonActuel = p;
+
         Image image = new Image(p.imageUrl, 200, 0, true, true, true);
         viewFx.image.setImage(image);
         viewFx.image.getStyleClass().add("image");
@@ -287,11 +286,18 @@ public class PokemonController {
             try {
                 List<Pokemon> pokemonsCaptures = dao.lister();
 
-                if (pokemonsCaptures == null || pokemonsCaptures.isEmpty()) {
-                    return;
-                }
+                Platform.runLater(() -> {
+                    if (pokemonsCaptures == null || pokemonsCaptures.isEmpty()) {
+                        List<Pokemon> lignesVides = new ArrayList<>();
+                        for (int i = 0; i < 6; i++) {
+                            lignesVides.add(null);
+                        }
+                        viewFx.listePokemonsCaptures.setItems(FXCollections.observableArrayList(lignesVides));
+                    } else {
+                        viewFx.listePokemonsCaptures.setItems(FXCollections.observableArrayList(pokemonsCaptures));
+                    }
+                });
 
-                Platform.runLater(() -> viewFx.listePokemonsCaptures.setItems(FXCollections.observableArrayList(pokemonsCaptures)));
             } catch (SQLException ex) {
                 Platform.runLater(() -> {
                     if (estUneErreurDeConnexion(ex)) {
@@ -306,34 +312,46 @@ public class PokemonController {
     }
 
     public void chargerPokemonInitial() {
-        try {
-            Pokemon zapdos = dao.rechercheParNom("zapdos");
 
-            if (zapdos != null) {
-                this.pokemonActuel = zapdos;
+        Thread threadInitialisation = new Thread(() -> {
+            try {
+                List<Pokemon> pokemons = dao.lister();
 
-                afficherCartePokemon(this.pokemonActuel);
+                Platform.runLater(() -> {
+                    // Si la base de donnée est vite, on charge Pikachu par défaut
+                    if (pokemons == null || pokemons.isEmpty()) {
+                        Pokemon pikachu = new Pokemon();
+                        pikachu.idPokedex = 25;
+                        pikachu.nom = "pikachu";
+                        pikachu.typePrincipal = "electrik";
+                        pikachu.pointsVie = 35;
+                        pikachu.attaque = 55;
+                        pikachu.defense = 40;
+                        pikachu.vitesse = 90;
+                        pikachu.taille = 4.0f;
+                        pikachu.poids = 60.0F;
+                        pikachu.imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png";
+                        afficherCartePokemon(pikachu);
+                    } else {
+                        // Si la BD contient un pokémon, on affiche le premier
+                        afficherCartePokemon(pokemons.getFirst());
+                    }
+                });
+            } catch (SQLException ex) {
+                Platform.runLater(() -> {
+                    if (estUneErreurDeConnexion(ex)) {
+                        viewFx.afficherErreurCritique("La connexion avec le serveur PostgreSQL a été perdue. Fermeture de l'application.");
+                    } else {
+                        viewFx.msgErreur.setText("Erreur lors de l'affichage de la liste des pokémons capturés.");
+                    }
+                });
 
-                viewFx.btnCapturer.setText("Relâcher !?");
-                viewFx.messageStatut.setText("Bienvenue dans votre Pokédex !");
-            } else {
-                viewFx.msgErreur.setText("Pokémon inital n'a pas été trouvé dans la base de données.");
             }
-        } catch (Exception e) {
-            viewFx.msgErreur.setText("Erreur lors du chargement du Pokémon initial.");
-        }
+        });
+        threadInitialisation.start();
     }
 
-    public void verifierChargementBd() throws IOException {
-
-        boolean chargementAReussi = InitSQL.executerInitSQL();
-
-        if (!chargementAReussi) {
-            viewFx.afficherErreurCritique("Erreur lors de la connexion ou du chargement de la base de donnée. Vérifiez que votre base de donnée est ouverte sur localhost:5432/exam_pokedex et que les informations de connexion dans util/Connexion correspondent avec vos informations locales, puis réessayez.");
-        }
-    }
-
-    private boolean estUneErreurDeConnexion(SQLException ex) {
+    public boolean estUneErreurDeConnexion(SQLException ex) {
         String state = ex.getSQLState();
         if (state != null) {
             // Si l'état commence par "08", la connexion avec la base de donnée est perdue
@@ -341,5 +359,4 @@ public class PokemonController {
         }
         return false;
     }
-
 }
