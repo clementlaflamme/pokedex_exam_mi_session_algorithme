@@ -148,6 +148,7 @@ public class PokemonViewFX {
 
         statPv = new Label("Ex: 5");
         barrePv = new ProgressBar(0.5);
+        barrePv.getStyleClass().add("barres-stats");
         statAtk = new Label("Ex: 5");
         barreAtk = new ProgressBar(0.5);
         statDef = new Label("Ex: 5");
