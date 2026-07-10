@@ -14,7 +14,6 @@ public class MainFX extends Application {
     public void start(Stage stage) throws IOException {
         PokemonViewFX view = new PokemonViewFX();
         PokemonController ctrl = new PokemonController(view);
-        ctrl.demarrer();
 
         Scene scene = new Scene(view.getRoot(), 540, 1080);
 
@@ -25,7 +24,8 @@ public class MainFX extends Application {
 
         stage.setTitle("Pokédex - Recherchez vos pokémons préférés");
         stage.setScene(scene);
-        stage.show();
+
+        ctrl.demarrer(stage);
     }
 
     public static void main(String[] args) {

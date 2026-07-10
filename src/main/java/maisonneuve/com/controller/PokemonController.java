@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import maisonneuve.com.modele.Pokemon;
 import maisonneuve.com.modele.PokemonDAO;
 import maisonneuve.com.service.PokedexAPI;
@@ -154,8 +155,8 @@ public class PokemonController {
 
     }
 
-    public void demarrer() throws IOException {
-        chargerPokemonInitial();
+    public void demarrer(Stage stage) throws IOException {
+        chargerPokemonInitial(stage);
         afficherListeCapture();
     }
 
@@ -317,44 +318,43 @@ public class PokemonController {
         thread.start();
     }
 
-    public void chargerPokemonInitial() {
+    public void chargerPokemonInitial(Stage stage) {
 
-        Thread threadInitialisation = new Thread(() -> {
-            try {
-                List<Pokemon> pokemons = dao.lister();
+        // Pas de thread ici, car c'est cette fonction qui afficher la fenêtre
+        try {
+            List<Pokemon> pokemons = dao.lister();
 
-                Platform.runLater(() -> {
-                    // Si la base de donnée est vite, on charge Pikachu par défaut
-                    if (pokemons == null || pokemons.isEmpty()) {
-                        Pokemon pikachu = new Pokemon();
-                        pikachu.idPokedex = 25;
-                        pikachu.nom = "pikachu";
-                        pikachu.typePrincipal = "electrik";
-                        pikachu.pointsVie = 35;
-                        pikachu.attaque = 55;
-                        pikachu.defense = 40;
-                        pikachu.vitesse = 90;
-                        pikachu.taille = 4.0f;
-                        pikachu.poids = 60.0F;
-                        pikachu.imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png";
-                        afficherCartePokemon(pikachu);
-                    } else {
-                        // Si la BD contient un pokémon, on affiche le premier
-                        afficherCartePokemon(pokemons.getFirst());
-                    }
-                });
-            } catch (SQLException ex) {
-                Platform.runLater(() -> {
-                    if (estUneErreurDeConnexion(ex)) {
-                        viewFx.afficherErreurCritique("La connexion avec le serveur PostgreSQL a été perdue. Fermeture de l'application.");
-                    } else {
-                        viewFx.msgErreur.setText("Erreur lors de l'affichage de la liste des pokémons capturés.");
-                    }
-                });
-
+            // Si la base de donnée est vide, on charge Pikachu par défaut
+            if (pokemons == null || pokemons.isEmpty()) {
+                Pokemon pikachu = new Pokemon();
+                pikachu.idPokedex = 25;
+                pikachu.nom = "pikachu";
+                pikachu.typePrincipal = "electrik";
+                pikachu.pointsVie = 35;
+                pikachu.attaque = 55;
+                pikachu.defense = 40;
+                pikachu.vitesse = 90;
+                pikachu.taille = 4.0f;
+                pikachu.poids = 60.0F;
+                pikachu.imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png";
+                afficherCartePokemon(pikachu);
+            } else {
+                // Si la BD contient un pokémon, on affiche le premier
+                afficherCartePokemon(pokemons.getFirst());
             }
-        });
-        threadInitialisation.start();
+
+            // On démarre la fenêtre ici pour éviter le clignotement
+            stage.show();
+
+        } catch (SQLException ex) {
+            if (estUneErreurDeConnexion(ex)) {
+                viewFx.afficherErreurCritique("Échec lors de la connexion à la base de donnée. Vérifiez qu'elle est bien active sur localhost:5432/exam_pokedex et que vos informations correspondent avec celles dans util/Connexion, puis réessayez.");
+                Platform.exit();
+            } else {
+                viewFx.msgErreur.setText("Erreur lors de l'affichage de la liste des pokémons capturés.");
+            }
+
+        }
     }
 
     public boolean estUneErreurDeConnexion(SQLException ex) {
