@@ -312,12 +312,12 @@ public class PokemonViewFX {
 
     public void animationBoutonGrosseur(StackPane stackBouton) {
         ScaleTransition zoomIn = new ScaleTransition(Duration.seconds(0.2), stackBouton);
-        zoomIn.setToX(1.1);
-        zoomIn.setToY(1.1);
+        zoomIn.setToX(1.02);
+        zoomIn.setToY(1.02);
 
         ScaleTransition zoomOut = new ScaleTransition(Duration.seconds(0.2), stackBouton);
-        zoomOut.setToX(1.06);
-        zoomOut.setToY(1.06);
+        zoomOut.setToX(1.0);
+        zoomOut.setToY(1.0);
 
         stackBouton.setOnMouseEntered(event -> {
             zoomOut.stop(); // on stop d'abord pour arreter l'animation si elle est en train de jouer
@@ -350,9 +350,11 @@ public class PokemonViewFX {
         formeBlanche.setManaged(false); // empeche le hbox de se resizer a l'apparition de la forme
 
         // création d'un masque de la taille du bouton avec les mêmes valeurs de border-radius
-        Rectangle masque = new Rectangle(largeur, hauteur);
+        Rectangle masque = new Rectangle();
         masque.setArcWidth(25);
         masque.setArcHeight(25);
+        masque.widthProperty().bind(stackBouton.widthProperty());
+        masque.heightProperty().bind(stackBouton.heightProperty());
 
         // appliquer le masque et envoyer la forme blanche dans le StackPane
         stackBouton.setClip(masque);
