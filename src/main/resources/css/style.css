@@ -21,6 +21,7 @@
     -pokeball-red: #FF3231;
     -pokeball-darkred: #ba222f;
     -pokeball-gradient: linear-gradient(to top, -pokeball-red, -pokeball-darkred);
+    -bleu-gradient: linear-gradient(to top, #8d9ed5, #90adcb);
 }
 
 .pilule-type {
@@ -31,7 +32,7 @@
     -fx-pref-width: 100px;
     -fx-alignment: center;
     -fx-border-width: 3px;
-    -fx-border-color: #90adcb;
+    -fx-border-color: #86cbe4;
     -fx-font-weight: bold;
     -fx-font-size: 1.5em;
 }
@@ -160,17 +161,23 @@
 .barre-recherche {
     -fx-border-radius: 50px;
     -fx-background-radius: 50px;
-    -fx-border-color: black;
+    -fx-border-color: #ABABAB;
     -fx-border-width: 3px;
     -fx-pref-height: 3em;
     -fx-padding: 0px 20px;
-    -fx-background-color: #ABABAB;
+    -fx-background-color: #d4d4d4;
 }
 
 .boite-haut {
     -fx-border-color: black;
-    -fx-background-color: -pokeball-gradient;
+    /*-fx-background-color: -pokeball-gradient;*/
     -fx-border-width: 15px 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0);
+}
+
+.stack-entete {
+    -fx-background-color: -pokeball-gradient;
+
 }
 
 .titre {
@@ -264,7 +271,7 @@
 }
 
 .list-cell:hover {
-    -fx-background-color: #90adcb;
+    -fx-background-color: -bleu-gradient;
 }
 
 .btn-capturer {
@@ -294,6 +301,7 @@
     -fx-padding: 10 0 10 0 ;
     -fx-max-width: infinity;
     -fx-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.65), 80, 0, 0, -0);
 }
 
 .message-erreur {
