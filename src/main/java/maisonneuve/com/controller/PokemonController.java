@@ -12,8 +12,6 @@ import maisonneuve.com.modele.Pokemon;
 import maisonneuve.com.modele.PokemonDAO;
 import maisonneuve.com.service.PokedexAPI;
 import maisonneuve.com.view.PokemonViewFX;
-
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +123,7 @@ public class PokemonController {
                     }
 
                     Label nomLabel = new Label(premiereLettreEnMaj(pokemon.nom));
-                    Label idLabel = new Label("#" + String.valueOf(pokemon.idPokedex));
+                    Label idLabel = new Label("#" + pokemon.idPokedex);
 
                     nomLabel.getStyleClass().add("cellule-nom");
                     idLabel.getStyleClass().add("cellule-id");
@@ -155,7 +153,7 @@ public class PokemonController {
 
     }
 
-    public void demarrer(Stage stage) throws IOException {
+    public void demarrer(Stage stage) {
         chargerPokemonInitial(stage);
         afficherListeCapture();
     }
@@ -182,14 +180,12 @@ public class PokemonController {
                 Platform.runLater(() -> {
                     if (p[0] == null) {
                         viewFx.msgErreur.setText("Aucun Pokémon ne correspond à votre recherche : '" + rechercheNettoyee + "'.");
-                        viewFx.barreRecherche.setDisable(false);
-                        viewFx.barreRecherche.clear();
                     } else {
                         afficherCartePokemon(p[0]);
                         viewFx.messageStatut.setText("Le Pokémon " + premiereLettreEnMaj(p[0].nom) + " a été trouvé ! ✅");
-                        viewFx.barreRecherche.setDisable(false);
-                        viewFx.barreRecherche.clear();
                     }
+                    viewFx.barreRecherche.setDisable(false);
+                    viewFx.barreRecherche.clear();
                 });
 
             } catch (Exception e) {
@@ -199,7 +195,6 @@ public class PokemonController {
                 });
             }
         });
-
         threadApi.start();
     }
 

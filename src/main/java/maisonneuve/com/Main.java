@@ -1,10 +1,7 @@
 package maisonneuve.com;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 public class Main {
-    static void main(String[] args) throws IOException, InterruptedException, SQLException {
+    static void main(String[] args) {
         MainFX.main(args);
     }
 }
