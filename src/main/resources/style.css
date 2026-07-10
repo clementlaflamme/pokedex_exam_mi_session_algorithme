@@ -123,11 +123,6 @@
     -fx-text-fill: white;
 }
 
-.nom {
-    -fx-font-size: 2em;
-    -fx-font-weight: bold;
-}
-
 .numPokedex {
     -fx-font-size: 1.5em;
     -fx-font-weight: bold;
@@ -139,20 +134,44 @@
 
 }
 
-.subtitle {
-    -fx-font-size: 0.8em;
-    -fx-text-fill: grey;
+.sous-titre {
+    -fx-font-size: 1.2em;
+    -fx-text-fill: D9D7D7;
 }
 
-/* la partie de l'image est encore en tests*/
-.image {
-    -fx-padding: 25px;
-    -fx-background-color: red;
+.image-pokemon {
+
+}
+
+.barre-recherche {
     -fx-border-radius: 50px;
     -fx-background-radius: 50px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-pref-height: 3em;
+    -fx-padding: 0px 20px;
+    -fx-background-color: #ABABAB;
 }
 
-.borderRad {
-    -fx-border-radiux: 12px;
-    -fx-background-radius: 12px;
+.boite-haut {
+    -fx-border-color: black;
+    -fx-background-color: #D51828;
+    -fx-border-width: 15px 0;
+}
+
+.titre {
+    -fx-font-size: 3em;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-text-fill: whitesmoke;
+}
+
+.carte-pokemon {
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-border-color: #87CDE6;
+    -fx-border-width: 5px;
+    -fx-padding: 10px;
+    -fx-background-color: #E6E6E6;
+
 }
