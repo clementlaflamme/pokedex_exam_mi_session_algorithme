@@ -27,7 +27,8 @@
 .pilule-type {
     -fx-padding: 5px;
     -fx-border-radius: 50px;
-    -fx-background-radius: 50px;
+    -fx-background-radius: 48px;
+    -fx-background-insets: 2px;
     -fx-min-width: 65px;
     -fx-pref-width: 100px;
     -fx-alignment: center;
@@ -35,6 +36,8 @@
     -fx-border-color: #86cbe4;
     -fx-font-weight: bold;
     -fx-font-size: 1.5em;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 4);
+    -fx-border-radius: 25px;
 }
 
 .normal {
@@ -166,6 +169,7 @@
     -fx-pref-height: 3em;
     -fx-padding: 0px 20px;
     -fx-background-color: #d4d4d4;
+    -fx-prompt-text-fill: lightslategrey;
 }
 
 .boite-haut {
