@@ -144,7 +144,7 @@
 }
 
 .sous-titre {
-    -fx-font-size: 1.2em;
+    -fx-font-size: 1em;
     -fx-text-fill: D9D7D7;
 }
 
@@ -176,7 +176,7 @@
 .titre {
     -fx-font-size: 3em;
     -fx-font-weight: bold;
-    -fx-padding: 10px;
+    -fx-padding: 10px 0 0 0;
     -fx-text-fill: whitesmoke;
 }
 
@@ -191,7 +191,7 @@
 }
 
 .ligne-separation {
-    -fx-padding: 10px 0;
+    -fx-padding: 10px 0 0 0;
 }
 
 .separator .line {
@@ -224,11 +224,14 @@
     -fx-font-size: 2em;
 }
 
+.progress-bar {
+    -fx-background-color: transparent;
+}
+
 .progress-bar > .track {
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
     -fx-background-color: #53616c;
-
 }
 
 .progress-bar > .bar {
@@ -240,16 +243,17 @@
 .list-view {
     -fx-background-color: transparent;
     -fx-border-color: #86cbe4;
-    -fx-border-radius: 25px;
-    -fx-background-radius: 25px;
+    -fx-border-radius: 20px;
     -fx-border-width: 4px;
-
 }
 
-.list-view .viewport {
-    -fx-background-color: transparent;
+.list-cell, .list-cell:focused {
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-border-color: transparent;
+    -fx-border-width: 4px 0px;
+    -fx-background-insets: 2px;
 }
-
 
 .list-cell:even {
     -fx-background-color: #dddddd;
@@ -293,6 +297,16 @@
     -fx-padding: 10 0 10 0 ;
     -fx-max-width: infinity;
     -fx-alignment: center;
+}
 
+.message-erreur {
+    -fx-text-fill: #edd12d;
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5px 0;
+}
 
+.titre-statistiques {
+    -fx-font-size: 1.3em;
+    -fx-font-weight: bold;
 }
