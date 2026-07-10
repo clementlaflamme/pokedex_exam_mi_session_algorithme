@@ -18,6 +18,7 @@
     -type-acier: #A1ABB4;
     -type-fee: #F392BD;
     -pokeball-red: #FF3231;
+    -pokeball-darkred: #ba222f;
 }
 
 .classLabel {
@@ -173,5 +174,19 @@
     -fx-border-width: 5px;
     -fx-padding: 10px;
     -fx-background-color: #E6E6E6;
+
+}
+
+.progress-bar > .track {
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: #53616c;
+
+}
+
+.progress-bar > .bar {
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: -pokeball-darkred;
 
 }
