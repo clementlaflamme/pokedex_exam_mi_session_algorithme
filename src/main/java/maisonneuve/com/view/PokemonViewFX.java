@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import maisonneuve.com.modele.Pokemon;
 
 import java.util.Optional;
@@ -68,6 +69,7 @@ public class PokemonViewFX {
         alert.setTitle("Erreur !");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.setHeight(250);
 
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.showAndWait();
@@ -244,7 +246,7 @@ public class PokemonViewFX {
         VBox centre = new VBox(2, carteStats, conteneurBouton, imgListe);
 
         // Zone du bas
-        messageStatut = new Label("Ex: Pikachu chargé avec succès !");
+        messageStatut = new Label("Bienvenue dans votre Pokédex !");
         messageStatut.getStyleClass().add("statut");
         messageStatut.setAlignment(Pos.CENTER);
 
@@ -261,4 +263,5 @@ public class PokemonViewFX {
     }
 
     public Parent getRoot() {return racine;}
+
 }
