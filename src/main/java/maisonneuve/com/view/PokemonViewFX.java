@@ -93,23 +93,29 @@ public class PokemonViewFX {
 
         // Zone centrale : carte du pokémon
         image = new ImageView();
-        image.setFitWidth(300);
-        image.setFitHeight(300);
+        image.setFitWidth(250);
+        image.setFitHeight(250);
         image.getStyleClass().add("image-pokemon");
+        HBox cadreImage = new HBox(image);
+        cadreImage.getStyleClass().add("cadre-image");
+        cadreImage.setAlignment(Pos.CENTER);
+
 
         nomPokemon = new Label("Ex : Pikachu");
+        nomPokemon.getStyleClass().add("nom-pokemon");
         idPokemon = new Label("Ex : #25");
-        HBox nomId = new HBox(2, nomPokemon, idPokemon);
-        nomId.setAlignment(Pos.CENTER);
+        idPokemon.getStyleClass().add("id-pokemon");
+        HBox nomId = new HBox(15, nomPokemon, idPokemon);
+        nomId.setAlignment(Pos.BASELINE_CENTER);
 
-        VBox carte = new VBox(8, image, nomId);
+        VBox carte = new VBox(8, cadreImage, nomId);
         carte.setAlignment(Pos.TOP_CENTER);
 
 
         // Types (1 ou 2)
         type1 = new Label("Électrique");
         type2 = new Label("Vol");
-        HBox types = new HBox(2, type1, type2);
+        HBox types = new HBox(25, type1, type2);
         types.setAlignment(Pos.CENTER);
 
         // Ligne de séparation
@@ -118,15 +124,15 @@ public class PokemonViewFX {
 
         // Poids et taille
         poidsPokemon = new Label("Ex : 24 kg");
-        poids = new Label("Poids");
-        poids.getStyleClass().add("subtitle");
+        poids = new Label("Poids : ");
+        poids.getStyleClass().add("");
         taillePokemon = new Label("Ex: 50cm");
-        taille = new Label("Taille");
-        taille.getStyleClass().add("subtitle");
+        taille = new Label("Taille : ");
+        taille.getStyleClass().add("");
 
-        VBox colPoids = new VBox(3, poids, poidsPokemon);
-        VBox colTaille = new VBox(3, taille, taillePokemon);
-        HBox poidsTaille = new HBox(2, colPoids, colTaille);
+        HBox boitePoids = new HBox(2, poids, poidsPokemon);
+        HBox boiteTaille = new HBox(2, taille, taillePokemon);
+        HBox poidsTaille = new HBox(2, boitePoids, boiteTaille);
         poidsTaille.setAlignment(Pos.CENTER);
 
         // Statistiques
@@ -148,7 +154,6 @@ public class PokemonViewFX {
 
         statPv = new Label("Ex: 5");
         barrePv = new ProgressBar(0.5);
-        barrePv.getStyleClass().add("barres-stats");
         statAtk = new Label("Ex: 5");
         barreAtk = new ProgressBar(0.5);
         statDef = new Label("Ex: 5");
@@ -192,6 +197,8 @@ public class PokemonViewFX {
         racine.setCenter(centre);
         racine.setBottom(messageStatut);
         barreRecherche.maxWidthProperty().bind(racine.widthProperty().multiply(0.50));
+        ligneSeparation.maxWidthProperty().bind(racine.widthProperty().multiply(0.75));
+        cadreImage.maxWidthProperty().bind(racine.widthProperty().multiply(0.50));
     }
 
     public Parent getRoot() {return racine;}
