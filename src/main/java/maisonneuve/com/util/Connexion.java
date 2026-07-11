@@ -6,7 +6,10 @@ import java.sql.SQLException;
 
 public class Connexion {
 
+    // Changez cette valeur pour l'adresse et le nom de votre base de donnée PostgreSQL
     private static final String URL = "jdbc:postgresql://localhost:5432/exam_pokedex";
+
+    // Changez ces valeurs pour qu'elles correspondent avec vos informations de connexion PostgreSQL
     private static final String USER = "postgres";
     private static final String PASS = "admin";
 
