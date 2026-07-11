@@ -15,7 +15,7 @@
     </properties>
 
     <dependencies>
-        <!-- PosgreSQL : JBDC -->
+        <!-- PostgreSQL : JBDC -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
