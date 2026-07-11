@@ -162,6 +162,7 @@ public class PokemonController {
     public void rechercherPokemon(String recherche) {
         viewFx.barreRecherche.setDisable(true);
         viewFx.msgErreur.setText(null);
+        viewFx.listePokemonsCaptures.getSelectionModel().clearSelection();
 
         String rechercheNettoyee = recherche.trim().toLowerCase();
 
