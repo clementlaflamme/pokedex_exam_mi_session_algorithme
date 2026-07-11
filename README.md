@@ -67,14 +67,19 @@ git clone https://github.com/clementlaflamme/pokedex_exam_mi_session_algorithme.
 ```
 
 ---
+### 2. Recharger les projets Maven
 
-### 2. Créer une nouvelle base de données PostgreSQL
+Rechargez les projets Maven, accessible par le bouton de Maven dans le pom.xml ou dans la barre de droite dans IntelliJ.
+
+---
+
+### 3. Créer une nouvelle base de données PostgreSQL
 
 Créez une base de données vide dans PostgreSQL.
 
 ---
 
-### 3. Importer la base de données
+### 4. Importer la base de données
 
 Exécutez le fichier :
 
@@ -86,7 +91,7 @@ dans votre nouvelle base de données PostgreSQL.
 
 ---
 
-### 4. Modifier les informations de connexion
+### 5. Modifier les informations de connexion
 
 Ouvrez le fichier :
 
@@ -106,7 +111,7 @@ afin qu'elles correspondent à votre configuration PostgreSQL.
 
 ---
 
-### 5. Lancer l'application
+### 6. Lancer l'application
 
 Exécutez :
 
